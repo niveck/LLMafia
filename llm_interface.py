@@ -52,7 +52,16 @@ def read_messages_from_file(message_history, file_name, num_read_lines):
 def wait_writing_time(player, message):
     if player.num_words_per_second_to_wait > 0:
         num_words = len(message.split())
-        time.sleep(min(num_words // player.num_words_per_second_to_wait, MAX_TIME_TO_WAIT))
+        time_to_wait = min(num_words // player.num_words_per_second_to_wait, MAX_TIME_TO_WAIT)
+        if is_nighttime(game_dir):
+            time_to_wait //= 2
+        time.sleep(time_to_wait)
+        # TODO: leave only working part
+        # time.sleep(num_words // player.num_words_per_second_to_wait)
+        # time.sleep(num_words // player.num_words_per_second_to_wait + 2)
+        # # It was originally num words per second, but now I changed it to be treated as num chars per second
+        # # treated as num chars per second to wait:
+        # time.sleep(len(message) // player.num_words_per_second_to_wait)
 
 
 def eliminate(player):
@@ -93,7 +102,7 @@ def add_message_to_game(player, message_history):
     if message:
         # artificially making the model taking time to write the message
         wait_writing_time(player, message)
-        if is_nighttime(game_dir) != is_nighttime_at_start:
+        if is_nighttime(game_dir) != is_nighttime_at_start or is_time_to_vote(game_dir):
             return  # waited for too long
         with open(game_dir / PERSONAL_CHAT_FILE_FORMAT.format(player.name), "a") as f:
             f.write(format_message(player.name, message))
@@ -102,8 +111,9 @@ def add_message_to_game(player, message_history):
         print(colored(MODEL_CHOSE_TO_PASS_TURN_LOG, OPERATOR_COLOR))
 
 
-def end_game():
-    print(colored(GAME_ENDED_MESSAGE, OPERATOR_COLOR))
+def end_game(eliminated: bool):
+    if not eliminated:
+        print(colored(GAME_ENDED_MESSAGE, OPERATOR_COLOR))
 
 
 def main():
@@ -114,6 +124,7 @@ def main():
     print(colored(ALL_PLAYERS_JOINED_MESSAGE, OPERATOR_COLOR))
     message_history = []
     num_read_lines_manager = num_read_lines_daytime = num_read_lines_nighttime = 0
+    eliminated = False
     while not is_game_over(game_dir):
         num_read_lines_manager += read_messages_from_file(
             message_history, PUBLIC_MANAGER_CHAT_FILE, num_read_lines_manager)
@@ -125,13 +136,14 @@ def main():
                 message_history, PUBLIC_NIGHTTIME_CHAT_FILE, num_read_lines_nighttime)
         if is_voted_out(player.name, game_dir):
             eliminate(player)
+            eliminated = True
             break
         if is_time_to_vote(game_dir) and (player.is_mafia or not is_nighttime(game_dir)):
             get_vote_from_llm(player, message_history)
             while is_time_to_vote(game_dir):
                 continue  # wait for voting time to end when all players have voted
         add_message_to_game(player, message_history)
-    end_game()
+    end_game(eliminated)
 
 
 if __name__ == '__main__':
