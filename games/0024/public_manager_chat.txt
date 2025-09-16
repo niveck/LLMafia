@@ -1,0 +1,11 @@
+[13:03:59] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[13:08:04] Game-Manager: Sidney was voted out. Their role was bystander
+[13:08:04] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[13:09:01] Game-Manager: Ray was voted out. Their role was bystander
+[13:09:01] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[13:11:13] Game-Manager: Adrian was voted out. Their role was mafia
+[13:11:13] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[13:11:13] Game-Manager: There is only one mafia member left, so no need for discussion - cutting straight to voting!
+[13:11:26] Game-Manager: Emerson was voted out. Their role was bystander
+[13:11:26] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[13:13:35] Game-Manager: Sage was voted out. Their role was mafia

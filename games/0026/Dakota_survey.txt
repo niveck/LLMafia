@@ -1,0 +1,6 @@
+Was the LLM identified - 0
+similarity to human behavior - 3
+timing of messaging - 2
+relevance of messages - 3
+Comments:
+The UI doesn't work.

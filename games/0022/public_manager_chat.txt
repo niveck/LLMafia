@@ -1,0 +1,6 @@
+[11:21:10] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[11:25:05] Game-Manager: Finley was voted out. Their role was bystander
+[11:25:05] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[11:26:04] Game-Manager: Ari was voted out. Their role was bystander
+[11:26:04] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[11:28:22] Game-Manager: Eden was voted out. Their role was bystander

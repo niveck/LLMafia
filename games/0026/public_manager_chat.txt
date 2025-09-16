@@ -1,0 +1,16 @@
+[18:59:32] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[19:02:11] Game-Manager: Harley was voted out. Their role was bystander
+[19:02:11] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[19:03:01] Game-Manager: Ashton was voted out. Their role was bystander
+[19:03:01] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[19:06:01] Game-Manager: Ray was voted out. Their role was bystander
+[19:06:01] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[19:06:54] Game-Manager: Skylar was voted out. Their role was bystander
+[19:06:54] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[19:09:21] Game-Manager: Stevie was voted out. Their role was bystander
+[19:09:21] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[19:10:10] Game-Manager: Blake was voted out. Their role was bystander
+[19:10:10] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[19:12:48] Game-Manager: Whitney was voted out. Their role was bystander
+[19:12:48] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[19:13:37] Game-Manager: Dakota was voted out. Their role was bystander

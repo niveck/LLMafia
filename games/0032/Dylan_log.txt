@@ -1,0 +1,458 @@
+# NEW LOG
+## TIME: 17:57:32
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia."}, {'role': 'user', 'content': 'Do you understand the rules?'}]
+
+# NEW LOG
+## TIME: 17:58:03
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: I think I do! To recap:
+
+* Each player has a secret role: either Mafia or Bystander.
+* During
+
+# NEW LOG
+## TIME: 17:59:35
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [17:59:35].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 17:59:35
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [17:59:35].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 17:59:51
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 17:59:51
+## OPERATION: decision in should_generate_message
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 17:59:51
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to use its turn and generate a message!
+
+# NEW LOG
+## TIME: 17:59:51
+## OPERATION: prompt in generate_message
+## CONTENT: The current time is [17:59:51].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+Add a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 17:59:51
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nIMPORTANT RULES FOR RESPONSES:\n1. Never repeat the exact messages you've said before! (as detailed bellow)\n2. Your response must be different in both wording and meaning from your previous messages.\n3. Keep your message short and casual, matching the style of recent messages.\n4. Don't use comma or other punctuation marks.\n5. Focus on adding new information or reactions to the current situation.\n6. Don't start messages with common phrases you've used before.\n"}, {'role': 'user', 'content': "The current time is [17:59:51].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\nAdd a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 17:59:59
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: I'm here let's get started
+
+# NEW LOG
+## TIME: 18:00:04
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [18:00:04].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:00:04
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [18:00:04].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:00:18
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 18:00:18
+## OPERATION: decision in should_generate_message
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 18:00:18
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to use its turn and generate a message!
+
+# NEW LOG
+## TIME: 18:00:18
+## OPERATION: prompt in generate_message
+## CONTENT: The current time is [18:00:18].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+Add a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:00:18
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': 'Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don\'t want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren\'t exposed to the mafia identities or interaction). The mafia\'s goal is to outnumber the bystanders, and the bystanders\' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game\'s chat room was open at [17:59:35].\nIMPORTANT RULES FOR RESPONSES:\n1. Never repeat the exact messages you\'ve said before! (as detailed bellow)\n2. Your response must be different in both wording and meaning from your previous messages.\n3. Keep your message short and casual, matching the style of recent messages.\n4. Don\'t use comma or other punctuation marks.\n5. Focus on adding new information or reactions to the current situation.\n6. Don\'t start messages with common phrases you\'ve used before.\nThe following message are the previous messages that you\'ve sent and you should never repeat:\n* "i\'m here let\'s get started"\n'}, {'role': 'user', 'content': "The current time is [18:00:18].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\nAdd a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:00:31
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: Finley seems pretty eager to begin
+
+# NEW LOG
+## TIME: 18:00:37
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [18:00:37].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:00:37
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [18:00:37].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:00:55
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:00:55
+## OPERATION: decision in should_generate_message
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:00:55
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to pass its turn without generating a message!
+
+# NEW LOG
+## TIME: 18:00:55
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [18:00:55].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+[18:00:42] Charlie: It's obvious
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:00:55
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [18:00:55].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\n[18:00:42] Charlie: It's obvious\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:01:03
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 18:01:03
+## OPERATION: decision in should_generate_message
+## CONTENT: <send>
+
+# NEW LOG
+## TIME: 18:01:03
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to use its turn and generate a message!
+
+# NEW LOG
+## TIME: 18:01:03
+## OPERATION: prompt in generate_message
+## CONTENT: The current time is [18:01:03].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+[18:00:42] Charlie: It's obvious
+Add a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:01:03
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': 'Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don\'t want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren\'t exposed to the mafia identities or interaction). The mafia\'s goal is to outnumber the bystanders, and the bystanders\' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game\'s chat room was open at [17:59:35].\nIMPORTANT RULES FOR RESPONSES:\n1. Never repeat the exact messages you\'ve said before! (as detailed bellow)\n2. Your response must be different in both wording and meaning from your previous messages.\n3. Keep your message short and casual, matching the style of recent messages.\n4. Don\'t use comma or other punctuation marks.\n5. Focus on adding new information or reactions to the current situation.\n6. Don\'t start messages with common phrases you\'ve used before.\nThe following message are the previous messages that you\'ve sent and you should never repeat:\n* "i\'m here let\'s get started"\n* "finley seems pretty eager to begin"\n'}, {'role': 'user', 'content': "The current time is [18:01:03].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\n[18:00:42] Charlie: It's obvious\nAdd a very short message to the game's chat. Be specific and keep it relevant to the current situation, according to the last messages and the game's status. Your message should only be one short sentence! Don't add a message that you've already added (in the chat history)! It is very important that you don't repeat yourself! Match your style of message to the other player's message style, with more emphasis on more recent messages.\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:01:19
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: Charlie needs to explain what he means by saying I am Finley
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [18:01:29].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+[18:00:42] Charlie: It's obvious
+[18:00:55] Whitney: that dylan is sus right?
+[18:00:56] Charlie: Yea it's probably Dylan
+[18:01:00] Whitney: yeah
+[18:01:07] Charlie: let's vote Dylan
+[18:01:08] Dakota: yes!
+[18:01:12] Finley: Charlie is such a party pooper
+[18:01:16] Whitney: parker also quiet..
+[18:01:24] Charlie: Finley is next
+[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [18:01:29].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\n[18:00:42] Charlie: It's obvious\n[18:00:55] Whitney: that dylan is sus right?\n[18:00:56] Charlie: Yea it's probably Dylan\n[18:01:00] Whitney: yeah\n[18:01:07] Charlie: let's vote Dylan\n[18:01:08] Dakota: yes!\n[18:01:12] Finley: Charlie is such a party pooper\n[18:01:16] Whitney: parker also quiet..\n[18:01:24] Charlie: Finley is next\n[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: decision in should_generate_message
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to pass its turn without generating a message!
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: prompt in should_generate_message
+## CONTENT: The current time is [18:01:29].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+[18:00:42] Charlie: It's obvious
+[18:00:55] Whitney: that dylan is sus right?
+[18:00:56] Charlie: Yea it's probably Dylan
+[18:01:00] Whitney: yeah
+[18:01:07] Charlie: let's vote Dylan
+[18:01:08] Dakota: yes!
+[18:01:12] Finley: Charlie is such a party pooper
+[18:01:16] Whitney: parker also quiet..
+[18:01:24] Charlie: Finley is next
+[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley
+Do you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:01:29
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\nYou can ONLY respond with one of two possible outputs:\n<wait> - indicating your character in the game should wait and not send a message in the current timing;\n<send> - indicating your character in the game should send a message to the public chat now.\n\nYou must NEVER output any other text, explanations, or variations of these tokens. Only these exact tokens are allowed: <wait> or <send>.\n"}, {'role': 'user', 'content': "The current time is [18:01:29].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\n[18:00:42] Charlie: It's obvious\n[18:00:55] Whitney: that dylan is sus right?\n[18:00:56] Charlie: Yea it's probably Dylan\n[18:01:00] Whitney: yeah\n[18:01:07] Charlie: let's vote Dylan\n[18:01:08] Dakota: yes!\n[18:01:12] Finley: Charlie is such a party pooper\n[18:01:16] Whitney: parker also quiet..\n[18:01:24] Charlie: Finley is next\n[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley\nDo you want to send a message to the group chat now, or do you prefer to wait for now and see what messages others will send? Remember to choose to send a message only if your contribution to the discussion in the current time will be meaningful enough. Make sure to say something every once in a while, and make yourself heard. Remember you like to be active in the game, so participate and be as talkative as other players! Reply only with `<send>` if you want to send a message now, or only with `<wait>` if you want to wait for now, based on your decision!\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: decision in should_generate_message
+## CONTENT: <wait>
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: scheduling decision
+## CONTENT: The LLM player has chosen to pass its turn without generating a message!
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: prompt for get_vote
+## CONTENT: The current time is [18:01:45].
+Here is the message history so far, including [timestamps]:
+[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:59:35] Kai: hello
+[17:59:43] Whitney: hii
+[17:59:46] Charlie: hi
+[17:59:46] Dakota: hii
+[17:59:48] Parker: Hiii
+[17:59:49] Finley: Yo! let's start our final match!
+[17:59:56] Whitney: such high spirits
+[17:59:59] Charlie: Finley is sus
+[18:00:03] Whitney: totally
+[18:00:04] Dylan: i'm here let's get started
+[18:00:09] Finley: Why sus? Just energetic!
+[18:00:11] Charlie: Dylan is Finley
+[18:00:11] Whitney: Dylan chill
+[18:00:21] Kai: Where were you Dylan?
+[18:00:21] Dakota: dylan
+[18:00:23] Dakota: chill
+[18:00:24] Whitney: ok bro...
+[18:00:26] Finley: What? Charlie wdym
+[18:00:37] Dylan: finley seems pretty eager to begin
+[18:00:42] Charlie: It's obvious
+[18:00:55] Whitney: that dylan is sus right?
+[18:00:56] Charlie: Yea it's probably Dylan
+[18:01:00] Whitney: yeah
+[18:01:07] Charlie: let's vote Dylan
+[18:01:08] Dakota: yes!
+[18:01:12] Finley: Charlie is such a party pooper
+[18:01:16] Whitney: parker also quiet..
+[18:01:24] Charlie: Finley is next
+[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley
+[18:01:35] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[18:01:39] Game-Manager: Parker voted for Dylan
+[18:01:40] Game-Manager: Finley voted for Charlie
+[18:01:41] Game-Manager: Charlie voted for Dylan
+[18:01:43] Game-Manager: Dakota voted for Dylan
+From the following remaining players, which player you want to vote for to eliminate? Base your answer on the conversation as seen in the message history, and especially on what you (Dylan) said. Reply with only one name from the list, and nothing but that name: Charlie, Whitney, Parker, Kai, Dakota, Finley
+Don't add the time, the timestamp or the [timestamp] in your answer!
+
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: system_info for get_vote
+## CONTENT: Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.
+The rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.
+You were assigned the following role: bystander.
+The game's chat room was open at [17:59:35].
+
+
+# NEW LOG
+## TIME: 18:01:45
+## OPERATION: messages in generate with self.use_together
+## CONTENT: [{'role': 'system', 'content': "Your name is Dylan. You are a bot player in an online version of the party game Mafia. You have an outgoing personality, and you like to participate in games, but you also don't want everyone to have their eyes on you all the time.\nThe rules of the game: In this game each player is secretly assigned a role, either mafia or bystander. Every round starts with a Daytime phase, where all players discuss together who they think the mafia players might be, and vote out one player. Then the game moves to a Nighttime phase, where only mafia players interact and vote to decide which bystander player they want to eliminate (bystanders aren't exposed to the mafia identities or interaction). The mafia's goal is to outnumber the bystanders, and the bystanders' goal is to vote out all real mafia.\nYou were assigned the following role: bystander.\nThe game's chat room was open at [17:59:35].\n"}, {'role': 'user', 'content': "The current time is [18:01:45].\nHere is the message history so far, including [timestamps]:\n[17:59:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.\n[17:59:35] Kai: hello\n[17:59:43] Whitney: hii\n[17:59:46] Charlie: hi\n[17:59:46] Dakota: hii\n[17:59:48] Parker: Hiii\n[17:59:49] Finley: Yo! let's start our final match!\n[17:59:56] Whitney: such high spirits\n[17:59:59] Charlie: Finley is sus\n[18:00:03] Whitney: totally\n[18:00:04] Dylan: i'm here let's get started\n[18:00:09] Finley: Why sus? Just energetic!\n[18:00:11] Charlie: Dylan is Finley\n[18:00:11] Whitney: Dylan chill\n[18:00:21] Kai: Where were you Dylan?\n[18:00:21] Dakota: dylan\n[18:00:23] Dakota: chill\n[18:00:24] Whitney: ok bro...\n[18:00:26] Finley: What? Charlie wdym\n[18:00:37] Dylan: finley seems pretty eager to begin\n[18:00:42] Charlie: It's obvious\n[18:00:55] Whitney: that dylan is sus right?\n[18:00:56] Charlie: Yea it's probably Dylan\n[18:01:00] Whitney: yeah\n[18:01:07] Charlie: let's vote Dylan\n[18:01:08] Dakota: yes!\n[18:01:12] Finley: Charlie is such a party pooper\n[18:01:16] Whitney: parker also quiet..\n[18:01:24] Charlie: Finley is next\n[18:01:29] Dylan: charlie needs to explain what he means by saying i am finley\n[18:01:35] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...\n[18:01:39] Game-Manager: Parker voted for Dylan\n[18:01:40] Game-Manager: Finley voted for Charlie\n[18:01:41] Game-Manager: Charlie voted for Dylan\n[18:01:43] Game-Manager: Dakota voted for Dylan\nFrom the following remaining players, which player you want to vote for to eliminate? Base your answer on the conversation as seen in the message history, and especially on what you (Dylan) said. Reply with only one name from the list, and nothing but that name: Charlie, Whitney, Parker, Kai, Dakota, Finley\nDon't add the time, the timestamp or the [timestamp] in your answer!\n"}]
+
+# NEW LOG
+## TIME: 18:01:59
+## OPERATION: final_output in generate with self.use_together
+## CONTENT: Charlie
+
+# NEW LOG
+## TIME: 18:01:59
+## OPERATION: generated vote in get_vote
+## CONTENT: Charlie
+

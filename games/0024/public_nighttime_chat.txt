@@ -1,0 +1,13 @@
+[13:08:07] Sage: hi
+[13:08:18] Adrian: hi
+[13:08:19] Sage: who is with me?
+[13:08:28] Sage: lets vote for Ray
+[13:08:32] Adrian: ok
+[13:08:36] Sage: good
+[13:08:38] Adrian: i didnt follow
+[13:08:41] Adrian: let do it
+[13:08:49] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[13:08:55] Game-Manager: Sage voted for Ray
+[13:09:01] Game-Manager: Adrian voted for Ray
+[13:11:13] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[13:11:26] Game-Manager: Sage voted for Emerson

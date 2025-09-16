@@ -1,0 +1,12 @@
+[17:43:57] Skylar: h
+[17:44:00] Skylar: hi
+[17:44:01] Noah: hi
+[17:44:09] Noah: who do you want?
+[17:44:11] Noah: ari?
+[17:44:14] Skylar: yes
+[17:44:23] Noah: ok
+[17:44:34] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[17:44:38] Game-Manager: Skylar voted for Ari
+[17:44:38] Game-Manager: Noah voted for Ari
+[17:46:51] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[17:47:12] Game-Manager: Noah voted for Addison

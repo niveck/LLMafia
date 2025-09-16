@@ -1,0 +1,6 @@
+[17:02:07] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:04:29] Game-Manager: Dakota was voted out. Their role was bystander
+[17:04:29] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:05:25] Game-Manager: Quinn was voted out. Their role was bystander
+[17:05:25] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:07:35] Game-Manager: Kai was voted out. Their role was bystander

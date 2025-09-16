@@ -1,0 +1,11 @@
+[17:41:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:43:49] Game-Manager: Peyton was voted out. Their role was bystander
+[17:43:49] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:44:38] Game-Manager: Ari was voted out. Their role was bystander
+[17:44:38] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:46:51] Game-Manager: Skylar was voted out. Their role was mafia
+[17:46:51] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:46:51] Game-Manager: There is only one mafia member left, so no need for discussion - cutting straight to voting!
+[17:47:12] Game-Manager: Addison was voted out. Their role was bystander
+[17:47:12] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:49:18] Game-Manager: Noah was voted out. Their role was mafia

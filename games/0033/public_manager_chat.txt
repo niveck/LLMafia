@@ -1,0 +1,6 @@
+[18:08:47] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[18:11:05] Game-Manager: Blake was voted out. Their role was bystander
+[18:11:05] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[18:11:58] Game-Manager: Emerson was voted out. Their role was bystander
+[18:11:58] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[18:14:09] Game-Manager: Harley was voted out. Their role was bystander
