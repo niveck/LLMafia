@@ -19,6 +19,7 @@ from llm_players.llm_constants import LLM_CONFIG_KEY
 
 
 LAST_GAME_FROM_PILOT = 37
+NUM_GAMES_WITH_8B_MODEL = 21
 
 ANALYSIS_DIR = Path("./analysis")
 
@@ -342,7 +343,7 @@ def plot_messages_histogram_in_phase(all_players, phases: list[Phase], game_id=N
         phase_reset.reset_timestamps()
         get_game_flow_info(all_timestamps, [phase_reset],
                            # creates unified histogram per player across phases
-                           player_message_lengths, {}, # player_voted_out,
+                           player_message_lengths, {},  # player_voted_out,
                            human_messages=human_messages,
                            llm_messages=llm_messages)
     game_in_title = f" in game {game_id}" if game_id is not None else ""
@@ -374,7 +375,7 @@ def plot_messages_histogram_in_phase(all_players, phases: list[Phase], game_id=N
         plt.ylabel("Number of words in message")
         plt.savefig(ANALYSIS_DIR / (title + ".png"))
         plt.show()
-    return player_message_lengths  #, player_voted_out
+    return player_message_lengths  # , player_voted_out
 
 
 def plot_messages_histogram_in_all_games(reset_message_lengths_across_all_games, player_name=None,
@@ -602,7 +603,8 @@ def get_games_statistics():
         print(f"{metric}: {avg(metrics_per_game[metric].values())}")
     print()
     multiple_games_stats = [3] * (7 * 2) + [2] + [1] * 8 + [1] * (6 * 3) + [1] * 4 + [2] * 2 + [
-        1] * 4 + [3] * 2 + [5] * (2 + 2) + [4] * 3 + [6] * 4
+        1] * 4 + [3] * 2 + [5] * (2 + 2) + [4] * 3 + [6] * 4 +  [7] * 6 + [1] * 11 + [2] * 5 + [
+        1] * 11
     print(f"statistics of players playing in multiple games:\n"
           f"Average: {avg(multiple_games_stats)}\n"
           f"STD: {np.std(multiple_games_stats)}\n"
@@ -736,7 +738,7 @@ def get_message_timings_statistics():
     xlabel = "Player's Mean Time Difference Between Messages in a Game (in seconds)"
     plot_timing_diffs_histogram(timing_diff_of_self_messages_by_humans,
                                 timing_diff_of_self_messages_by_llm,
-                                title, xlabel)  # TODO: need to adjust to the new function!
+                                title, xlabel)  # needs to be adjusted to the function modification
 
     print(f"Number of messages by a player per daytime phase:")
     for player_type, num_of_messages in [("Human", number_of_messages_by_humans_in_daytime),
@@ -804,7 +806,8 @@ def plot_timing_histogram(messages, title):
 
 
 def plot_timing_diffs_histogram(human_timing_diffs, llm_timing_diffs, title,
-                                xlabel, plot_name, ax, kde_bandwidth: float = 1, extend_xlim=False):
+                                xlabel, plot_name, ax, kde_bandwidth: float = 1, extend_xlim=False,
+                                plot_separately_by_base_models=False):
     # plt.title(title)
     # plt.xlabel(xlabel)
     # plt.ylabel("Proportion (density)")
@@ -812,14 +815,19 @@ def plot_timing_diffs_histogram(human_timing_diffs, llm_timing_diffs, title,
     ax.set_xlabel(xlabel, fontsize=14)
     ax.set_ylabel("Proportion (density)", fontsize=14)
     max_x = max(human_timing_diffs + llm_timing_diffs)
-    for player_type, timing_diffs, color in [("Human", human_timing_diffs, "blue"),
-                                             ("LLM", llm_timing_diffs, "red")]:
+    if plot_separately_by_base_models:
+        classes = [("Human", human_timing_diffs, "blue"),
+                   ("8B LLM", llm_timing_diffs[:NUM_GAMES_WITH_8B_MODEL], "orange"),
+                   ("70B LLM", llm_timing_diffs[NUM_GAMES_WITH_8B_MODEL:], "red")]
+    else:
+        classes = [("Human", human_timing_diffs, "blue"), ("LLM", llm_timing_diffs, "red")]
+    for player_type, timing_diffs, color in classes:
         # plt.hist(timing_diffs, density=True, bins=20, alpha=0.5, color=color,
         #          label=fr"{player_type} $(\mu = {np.mean(timing_diffs):.2f}, "
         #                fr"\sigma = {np.std(timing_diffs):.2f})$")
         timing_diffs_squeezed = np.array(timing_diffs)[:, np.newaxis]
         kde_timing_diffs = KernelDensity(
-            kernel="gaussian",bandwidth=kde_bandwidth).fit(timing_diffs_squeezed)
+            kernel="gaussian", bandwidth=kde_bandwidth).fit(timing_diffs_squeezed)
         x_range = np.linspace(0, max_x + 5, 1000)
         log_density = kde_timing_diffs.score_samples(x_range[:, np.newaxis])
         # plt.fill_between(
@@ -830,7 +838,7 @@ def plot_timing_diffs_histogram(human_timing_diffs, llm_timing_diffs, title,
     # plt.ylim(0, np.exp(max(log_density)) * 1.1)
     ax.set_ylim(0, np.exp(max(log_density)) * 1.1)
     if extend_xlim:
-        ax.set_xlim(ax.get_xlim()[0], ax.get_xlim()[1] * 1.1)
+        ax.set_xlim(ax.get_xlim()[0] + 2, ax.get_xlim()[1] * 1.3)
     ax.legend(fontsize=14)
     # plt.savefig(ANALYSIS_DIR / f"{plot_name}.png")
     # plt.show()
@@ -847,11 +855,11 @@ def separate_embedding_classes(embeddings: np.ndarray, model_name: str,
     named_classifiers = [
         (SVC, dict(kernel="linear"), "Linear SVM"),
         (SVC, dict(kernel="poly", degree=3), "Polynomial (deg=3) SVM"),
-        # (SVC, dict(kernel="rbf"), "Gaussiam SVM"),
-        # (SVC, dict(kernel="sigmoid"), "Sigmoid SVM"),
+        (SVC, dict(kernel="rbf"), "Gaussiam SVM"),
+        (SVC, dict(kernel="sigmoid"), "Sigmoid SVM"),
         (LogisticRegression, dict(solver="liblinear"), "Logistic Regression"),
         (LinearDiscriminantAnalysis, {}, "LDA"),
-        # (QuadraticDiscriminantAnalysis, dict(reg_param=0.5), "QDA"),
+        (QuadraticDiscriminantAnalysis, dict(reg_param=0.5), "QDA"),
     ]
     print(f"\nSeparating the embeddings of {model_name} with classifiers:\n")
     for classes, class_name in named_classes:
@@ -933,48 +941,138 @@ def get_embeddings(messages: list[ParsedMessage], model_name=SENTENCE_EMBEDDING_
 
 
 def plot_percentage_bars_chart(did_llm_win, is_llm_mafia,
-                               did_human_win_as_mafia, did_human_win_as_bystander):
+                               did_human_win_as_mafia, did_human_win_as_bystander,
+                               plot_separately_by_base_models=False,
+                               plot_separately_by_role=False):
     did_llm_win_as_mafia = []
     did_llm_win_as_bystander = []
+    did_small_llm_win_as_mafia = []
+    did_small_llm_win_as_bystander = []
+    did_large_llm_win_as_mafia = []
+    did_large_llm_win_as_bystander = []
     for i, llm_win in enumerate(did_llm_win):
-        if is_llm_mafia[i]:
-            did_llm_win_as_mafia.append(llm_win)
+        if plot_separately_by_base_models:
+            mafia_win_list = did_small_llm_win_as_mafia if i < NUM_GAMES_WITH_8B_MODEL else did_large_llm_win_as_mafia
+            bystander_win_list = did_small_llm_win_as_bystander if i < NUM_GAMES_WITH_8B_MODEL else did_large_llm_win_as_bystander
         else:
-            did_llm_win_as_bystander.append(llm_win)
+            mafia_win_list = did_llm_win_as_mafia
+            bystander_win_list = did_llm_win_as_bystander
+        if is_llm_mafia[i]:
+            mafia_win_list.append(llm_win)
+        else:
+            bystander_win_list.append(llm_win)
     # default_true_color, default_false_color = "royalblue", "lightblue"  # "darkblue", "slateblue"  # "darkred", "indianred"
     human_true_color, human_false_color = "mediumblue", "cornflowerblue"
-    llm_true_color, llm_false_color = "darkred", "indianred"
-    plt.figure(figsize=(5, 2.5))
-    ax = plt.subplot(1, 1, 1)  # used to merge X-axis
-    ax.yaxis.tick_right()
-    for false_label, false_color in [
-        # ("Human Loses", human_false_color),
-        # ("LLM Loses", llm_false_color),
-        ("Human Loses\nas Bystander", human_false_color),
-        ("LLM Loses\nas Bystander", llm_false_color),
-        ("Human Loses\nas Mafia", human_false_color),
-        ("LLM Loses\nas Mafia", llm_false_color)
-    ][::-1]:
-        plt.barh(false_label, 1, color=false_color)
-    plt.subplot(1, 1, 1, sharex=ax, frameon=False)
-    for true_label, values, true_color in [
-        # ("Human Wins", did_human_win_as_mafia + did_human_win_as_bystander, human_true_color),
-        # ("LLM Wins", did_llm_win, llm_true_color),
-        ("Human Wins\nas Bystander", did_human_win_as_bystander, human_true_color),
-        ("LLM Wins\nas Bystander", did_llm_win_as_bystander, llm_true_color),
-        ("Human Wins\nas Mafia", did_human_win_as_mafia, human_true_color),
-        ("LLM Wins\nas Mafia", did_llm_win_as_mafia, llm_true_color),
-    ][::-1]:
-        true_percent = avg(values)
-        plt.barh(true_label, true_percent, color=true_color)
-        plt.text(true_percent, true_label, f"{true_percent * 100:.2f}% ", va="center", ha="right", c="white")
-        plt.text(true_percent, true_label, f" {(1 - true_percent) * 100:.2f}%", va="center", ha="left")
-    plt.xlim(0, 1)
+    llm_true_color, llm_false_color = "darkred", "indianred"  # also used as large LLM
+    small_llm_true_color, small_llm_false_color = "sienna", "sandybrown"  # "goldenrod", "khaki"  # "darkorange", "gold"
+
+    if plot_separately_by_base_models:
+        false_classes = [
+            ("Human Loses\nas Bystander", human_false_color),
+            ("8B LLM Loses\nas Bystander", small_llm_false_color),
+            ("70B LLM Loses\nas Bystander", llm_false_color),
+            ("Human Loses\nas Mafia", human_false_color),
+            ("8B LLM Loses\nas Mafia", small_llm_false_color),
+            ("70B LLM Loses\nas Mafia", llm_false_color)
+        ]
+        true_classes = [
+            ("Human Wins\nas Bystander", did_human_win_as_bystander, human_true_color),
+            ("8B LLM Wins\nas Bystander", did_small_llm_win_as_bystander, small_llm_true_color),
+            ("70B LLM Wins\nas Bystander", did_large_llm_win_as_bystander, llm_true_color),
+            ("Human Wins\nas Mafia", did_human_win_as_mafia, human_true_color),
+            ("8B LLM Wins\nas Mafia", did_small_llm_win_as_mafia, small_llm_true_color),
+            ("70B LLM Wins\nas Mafia", did_large_llm_win_as_mafia, llm_true_color),
+        ]
+    else:
+        false_classes = [
+            # ("Human Loses", human_false_color),
+            # ("LLM Loses", llm_false_color),
+            ("Human Loses\nas Bystander", human_false_color),
+            ("LLM Loses\nas Bystander", llm_false_color),
+            ("Human Loses\nas Mafia", human_false_color),
+            ("LLM Loses\nas Mafia", llm_false_color)
+        ]
+        true_classes = [
+            # ("Human Wins", did_human_win_as_mafia + did_human_win_as_bystander, human_true_color),
+            # ("LLM Wins", did_llm_win, llm_true_color),
+            ("Human Wins\nas Bystander", did_human_win_as_bystander, human_true_color),
+            ("LLM Wins\nas Bystander", did_llm_win_as_bystander, llm_true_color),
+            ("Human Wins\nas Mafia", did_human_win_as_mafia, human_true_color),
+            ("LLM Wins\nas Mafia", did_llm_win_as_mafia, llm_true_color),
+        ]
+
+    if plot_separately_by_role:
+        fig, axes = plt.subplots(2, 1, figsize=(5, 3.5), sharex=True)
+
+        # --- BYSTANDER ---
+        # set background to the first subplot slot and draw the lose-background bars there
+        plt.sca(axes[0])
+        axes[0].yaxis.tick_right()
+
+        # draw the background "loses" bars on the background axes
+        for false_label, false_color in false_classes[::-1]:
+            if "Mafia" in false_label:
+                continue
+            plt.barh(false_label.replace("\nas Bystander", ""), 1, color=false_color)
+
+        # overlay a new (frameless) axes in the same subplot slot for the true bars
+        plt.subplot(2, 1, 1, sharex=axes[0], frameon=False)
+        for true_label, values, true_color in true_classes[::-1]:
+            if "Mafia" in true_label:
+                continue
+            true_label = true_label.replace("\nas Bystander", "")
+            plot_true_label_bars(true_color, true_label, values)
+        plt.xlim(0, 1)
+        plt.xlabel("Winning Percentage as Bystander", fontsize=12)
+
+        # --- MAFIA ---
+        # set background to the first subplot slot and draw the lose-background bars there
+        plt.sca(axes[1])
+        axes[1].yaxis.tick_right()
+
+        # draw the background "loses" bars on the background axes
+        for false_label, false_color in false_classes[::-1]:
+            if "Bystander" in false_label:
+                continue
+            plt.barh(false_label.replace("\nas Mafia", ""), 1, color=false_color)
+
+        # overlay a new (frameless) axes in the same subplot slot for the true bars
+        plt.subplot(2, 1, 2, sharex=axes[1], frameon=False)
+        for true_label, values, true_color in true_classes[::-1]:
+            if "Bystander" in true_label:
+                continue
+            true_label = true_label.replace("\nas Mafia", "")
+            plot_true_label_bars(true_color, true_label, values)
+        plt.xlim(0, 1)
+        plt.xlabel("Winning Percentage as Mafia", fontsize=12)
+
+    else:
+        figsize = (5, 3.5) if plot_separately_by_base_models else (5, 2.5)
+        plt.figure(figsize=figsize)
+        ax = plt.subplot(1, 1, 1)  # used to merge X-axis
+        ax.yaxis.tick_right()
+        for false_label, false_color in false_classes[::-1]:
+            plt.barh(false_label, 1, color=false_color)
+        plt.subplot(1, 1, 1, sharex=ax, frameon=False)
+        for true_label, values, true_color in true_classes[::-1]:
+            plot_true_label_bars(true_color, true_label, values)
+        plt.xlim(0, 1)
+        plt.xlabel("Winning Percentage", fontsize=12)
+
     plt.xticks([0, 0.2, 0.4, 0.6, 0.8, 1], ["0%", "20%", "40%", "60%", "80%", "100%"])
-    plt.xlabel("Winning Percentage", fontsize=12)
     plt.tight_layout()
     plt.savefig(ANALYSIS_DIR / "llm_performance_in_game.png")
     plt.show()
+
+
+def plot_true_label_bars(true_color, true_label, values):
+    true_percent = avg(values)
+    plt.barh(true_label, true_percent, color=true_color)
+    plt.text(true_percent, true_label, f"{true_percent * 100:.2f}% ", va="center", ha="right",
+             c="white")
+    if true_percent != 1:
+        plt.text(true_percent, true_label, f" {(1 - true_percent) * 100:.2f}%", va="center",
+                 ha="left")
 
 
 def calc_message_amount_by_player_during_daytime(parsed_messages_by_phase_all_games: list[list[Phase]],
@@ -1037,7 +1135,8 @@ def calc_game_mean_timing_diffs(parsed_messages_by_phase, human_players,
 def plot_merged_timing_diff_hists(mean_per_game_of_timing_diff_of_messages_sent_by_humans,
                                   mean_per_game_of_timing_diff_of_messages_sent_by_llm,
                                   mean_per_game_of_timing_diff_of_self_messages_by_humans,
-                                  mean_per_game_of_timing_diff_of_self_messages_by_llm):
+                                  mean_per_game_of_timing_diff_of_self_messages_by_llm,
+                                  plot_separately_by_base_models=False):
     fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(11, 5))
     plot_timing_diffs_histogram(mean_per_game_of_timing_diff_of_messages_sent_by_humans,
                                 mean_per_game_of_timing_diff_of_messages_sent_by_llm,
@@ -1045,7 +1144,8 @@ def plot_merged_timing_diff_hists(mean_per_game_of_timing_diff_of_messages_sent_
                                 "and the Previous Message by Any Other Player",
                                 "Player's Average Waiting Time\nFrom Previous Message (seconds)",
                                 "mean_time_diff_msg_to_any_prev",
-                                axs[0], kde_bandwidth=1.5)
+                                axs[0], kde_bandwidth=1.5,
+                                plot_separately_by_base_models=plot_separately_by_base_models)
     plot_timing_diffs_histogram(mean_per_game_of_timing_diff_of_self_messages_by_humans,
                                 mean_per_game_of_timing_diff_of_self_messages_by_llm,
                                 "Distribution of Average Time Difference\n"
@@ -1053,7 +1153,8 @@ def plot_merged_timing_diff_hists(mean_per_game_of_timing_diff_of_messages_sent_
                                 "Player's Average Waiting Time\nBetween Self Messages (seconds)",
                                 "mean_time_diff_same_player_msg",
                                 axs[1], kde_bandwidth=5,
-                                extend_xlim=True)
+                                extend_xlim=True,
+                                plot_separately_by_base_models=plot_separately_by_base_models)
     fig.tight_layout()
     plt.savefig(ANALYSIS_DIR / "mean_time_diff_hists.png")
     plt.show()
@@ -1133,7 +1234,7 @@ def calc_dataset_metadata(parsed_messages_by_phase_all_games: list[list[Phase]])
     avg_num_players = avg(num_players_per_game)
     print(f"Our dataset consists of {num_games} games, with a total of {num_messages} messages "
           f"({avg_num_messages_per_game:.2f} messages per game on average), "
-          f"{num_llm_messages} of which were sent by the LLM-agent "
+          f"{num_llm_messages} of which were sent by the LLM agent "
           f"({avg_num_llm_messages_per_game:.2f} per game on average).\n")
     print(f"NOW in Latex table format:")
     print(fr"{num_games} & {avg_num_phases:.2f} & {avg_num_players:.2f} "
@@ -1144,7 +1245,7 @@ def calc_dataset_metadata(parsed_messages_by_phase_all_games: list[list[Phase]])
           f"{np.std(num_players_per_game):.2f} STD). "
           f"Games with 10 or fewer players included 2 mafia members, "
           f"while games with more than 10 players included 3. "
-          f"Every game included one LLM-agent as a player.")
+          f"Every game included one LLM agent as a player.")
     print("\n***\nREMEMBER to manually check statistics for num games played by a player!\n")
 
 
@@ -1278,11 +1379,11 @@ def plot_voting_out_by_speaking_rank_histogram(parsed_messages_by_phase_all_game
 
 def main():
     # Should include:
-    # 0. Dataset metadat
+    # 0. Dataset metadata
     # 0.1. Consisting of # games & # messages
     # 0.2. Table: General information for all games in dataset
     # 0.3. Number of players per game
-    # 1. LLM-Agent Performance in Game:
+    # 1. LLM Agent Performance in Game:
     # 1.1 Percentage plots (instead of Pie Chats like in LIMA) of winning percentage, winning as Mafia, winning as bystander, playing as mafia, mafia is winning
     # 2. Message Quantity:
     # 2.1 Table: Amount of messages sent by a player during a daytime phase.
@@ -1292,7 +1393,7 @@ def main():
     # 2.2.2 between a message and the previous one by the same player!
     # 3. Message Content:
     # 3.1 Table: table of averaged + STD message length, repetition (unique messages), # unique words
-    # 4. Embeddding Analysis:
+    # 4. Embedding Analysis:
     # 4.1 before visual plots (Table?): try to have linear(/non linear?) separation of human and LLM, and also mafia and bystanders, and also humans before LLM was voted out and after!
     # 4.2 visualize with 2D and 3D - colors for human and LLM, subcolors for mafia and bystanders
     # 4.3 visualize again with colors for human/LLM but this time with subcolor for humans after LLM was voted out
@@ -1301,7 +1402,6 @@ def main():
     # 5.2 Table: means and STDs (overall, like above) for the 3 human-ranked scores
     # 6. Speaking Rank - Voting Out Distribution
     # 6.1. Plot: histogram of voted out player by their normalized speaking rank in that phase
-
 
     did_mafia_win_all_games = []
     did_llm_win_all_games = []
@@ -1349,7 +1449,6 @@ def main():
         parsed_messages_by_phase_all_games.append(parsed_messages_by_phase)
         llm_names_all_games.append(llm_player_name)
 
-        # remember timestamps are reset here!
         calc_game_mean_timing_diffs(parsed_messages_by_phase, human_players,
                                     mean_per_game_of_timing_diff_of_messages_sent_by_humans,
                                     mean_per_game_of_timing_diff_of_messages_sent_by_llm,
@@ -1374,7 +1473,9 @@ def main():
     # 1.
     plot_percentage_bars_chart(did_llm_win_all_games, is_llm_mafia_all_games,
                                did_human_win_as_mafia_all_games,
-                               did_human_win_as_bystander_all_games)
+                               did_human_win_as_bystander_all_games,
+                               plot_separately_by_base_models=True,
+                               plot_separately_by_role=True)
 
     # 2.1.
     calc_message_amount_by_player_during_daytime(parsed_messages_by_phase_all_games,
@@ -1385,7 +1486,8 @@ def main():
     plot_merged_timing_diff_hists(mean_per_game_of_timing_diff_of_messages_sent_by_humans,
                                   mean_per_game_of_timing_diff_of_messages_sent_by_llm,
                                   mean_per_game_of_timing_diff_of_self_messages_by_humans,
-                                  mean_per_game_of_timing_diff_of_self_messages_by_llm)
+                                  mean_per_game_of_timing_diff_of_self_messages_by_llm,
+                                  plot_separately_by_base_models=True)
 
     # 3.
     calc_message_content_empiric_metrics(human_content_metrics, llm_content_metrics)
@@ -1400,7 +1502,6 @@ def main():
 
     # 6.
     plot_voting_out_by_speaking_rank_histogram(parsed_messages_by_phase_all_games)
-
 
     print()  # Allowing breaking point before end
 
@@ -1420,7 +1521,6 @@ def preprocess_games_for_dataset():
                             rf"{ANONYMIZED_NAME}\2", real_names)
         (game_dir / REAL_NAMES_FILE).write_text(anonymized)
     print()  # Allowing breaking point before end
-
 
 
 if __name__ == "__main__":
