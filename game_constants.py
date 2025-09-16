@@ -25,6 +25,7 @@ GAME_START_TIME_FILE = "game_start_time.txt"
 PUBLIC_MANAGER_CHAT_FILE = "public_manager_chat.txt"
 PUBLIC_DAYTIME_CHAT_FILE = "public_daytime_chat.txt"
 PUBLIC_NIGHTTIME_CHAT_FILE = "public_nighttime_chat.txt"
+ALL_MESSAGES_FILE = "all_messages.txt"
 # file that is initial used for players to write "joined", and then for host to write "eliminated"
 PERSONAL_STATUS_FILE_FORMAT = "{}_status.txt"
 # files that hosts read from and players write to

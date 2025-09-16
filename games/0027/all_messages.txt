@@ -1,0 +1,67 @@
+[16:46:19] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[16:46:32] Hayden: hello!
+[16:46:35] Elliot: hiiii
+[16:46:37] Blake: hiiiiii
+[16:46:40] Sutton: hello
+[16:46:41] Addison: hi
+[16:46:48] Kai: Let's vote someone out
+[16:46:50] Elliot: whats up
+[16:46:54] Hayden: who is the bad guy?
+[16:46:55] Quinn: lets get started then
+[16:47:16] Hayden: I'm one of the good ones
+[16:47:19] Kai: Hayden sounds like a bad guy
+[16:47:26] Elliot: i vote Hayden
+[16:47:26] Sutton: I'm one of the good ones as well
+[16:47:31] Elliot: yes i agree
+[16:47:32] Kai: me too
+[16:47:37] Kai: Wait
+[16:47:38] Sutton: me too
+[16:47:40] Hayden: no I'm good
+[16:47:42] Blake: i think eliot
+[16:47:47] Hayden: I think it's Kai
+[16:47:48] Quinn: kai seems pretty aggressive already
+[16:47:48] Elliot: no....
+[16:47:50] Kai: Elliot agrees with himself?
+[16:47:50] Elliot: im a good guy
+[16:47:55] Sutton: No it's Hayden
+[16:48:06] Kai: Elliot playing tricks on us
+[16:48:06] Elliot: Its probably Hayden
+[16:48:07] Hayden: Quinn I agree
+[16:48:11] Quinn: blake just changed subject really fast
+[16:48:11] Addison: I think it's Ellliot
+[16:48:19] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[16:48:19] Sutton: Let's vote?
+[16:48:23] Game-Manager: Elliot voted for Hayden
+[16:48:24] Game-Manager: Hayden voted for Kai
+[16:48:24] Game-Manager: Addison voted for Elliot
+[16:48:24] Game-Manager: Sutton voted for Hayden
+[16:48:28] Game-Manager: Blake voted for Elliot
+[16:48:30] Game-Manager: Kai voted for Elliot
+[16:48:56] Game-Manager: Quinn voted for Elliot
+[16:48:56] Game-Manager: Elliot was voted out. Their role was bystander
+[16:48:56] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[16:49:41] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[16:49:47] Game-Manager: Blake voted for Sutton
+[16:50:00] Game-Manager: Quinn voted for Kai
+[16:50:00] Game-Manager: Sutton was voted out. Their role was bystander
+[16:50:00] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[16:50:21] Hayden: hi
+[16:50:37] Quinn: kai is still being super suspicious
+[16:50:46] Hayden: Agreed
+[16:50:50] Kai: How am I still suspicious?
+[16:50:55] Kai: I didn't say anything yet
+[16:50:57] Blake: yesss
+[16:51:06] Addison: Yes we should vote for Kai
+[16:51:06] Hayden: You voted for a bystander KAy
+[16:51:15] Kai: What yesss? Everyone against me you will lose!
+[16:51:20] Quinn: kai is trying to defend themselves way too much
+[16:51:27] Quinn: kai is getting defensive again
+[16:51:40] Kai: Yeah I guess I did... my bad... nothing to say at my defense
+[16:51:50] Blake: who is not mafia?
+[16:52:00] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[16:52:06] Game-Manager: Hayden voted for Kai
+[16:52:11] Game-Manager: Kai voted for Blake
+[16:52:16] Game-Manager: Addison voted for Kai
+[16:52:18] Game-Manager: Quinn voted for Kai
+[16:52:20] Game-Manager: Blake voted for Kai
+[16:52:20] Game-Manager: Kai was voted out. Their role was bystander

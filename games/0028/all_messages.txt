@@ -1,0 +1,68 @@
+[17:02:07] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:02:07] Skylar: haloooooo
+[17:02:14] Dylan: hi
+[17:02:16] Quinn: hiiii
+[17:02:17] Noah: hi!
+[17:02:20] Dakota: lets get started then
+[17:02:20] Brook: sup
+[17:02:21] Kai: hiiii
+[17:02:27] Kai: you're right
+[17:02:28] Quinn: so whos the bad guy?
+[17:02:33] Brook: My name is Brook
+[17:02:34] Kai: Quinn for sure
+[17:02:34] Dakota: everyone seems pretty quiet today
+[17:02:39] Brook: I am not an AI
+[17:02:44] Quinn: Brook is sus
+[17:02:46] Kai: For sure!!!!
+[17:02:50] Dakota: kai dont accuse people yet
+[17:02:55] Skylar: whos ai????
+[17:02:55] Brook: no I ain't
+[17:03:02] Quinn: Dakota maybe...
+[17:03:15] Brook: Dakota seems pretty quiet today
+[17:03:21] Quinn: whos from the mafia??
+[17:03:29] Noah: so who are we voting out?
+[17:03:31] Skylar: dacota also??
+[17:03:36] Dylan: Kai seems suspicious
+[17:03:38] Brook: I think Dakota yea
+[17:03:47] Kai: Brook is the loadest
+[17:03:57] Brook: loadest?
+[17:03:58] Dakota: dylan has a point about kai
+[17:04:03] Noah: Yeah so maybe brook
+[17:04:07] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[17:04:15] Game-Manager: Brook voted for Dakota
+[17:04:15] Game-Manager: Quinn voted for Brook
+[17:04:17] Game-Manager: Kai voted for Brook
+[17:04:21] Game-Manager: Skylar voted for Dakota
+[17:04:25] Game-Manager: Dylan voted for Kai
+[17:04:27] Game-Manager: Dakota voted for Kai
+[17:04:29] Game-Manager: Noah voted for Dakota
+[17:04:29] Game-Manager: Dakota was voted out. Their role was bystander
+[17:04:29] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:05:00] Brook: good call
+[17:05:05] Dylan: so who are we getting?
+[17:05:14] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[17:05:24] Game-Manager: Dylan voted for Quinn
+[17:05:25] Game-Manager: Brook voted for Kai
+[17:05:25] Game-Manager: Quinn was voted out. Their role was bystander
+[17:05:25] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:05:39] Noah: I think Brook is sus
+[17:05:50] Kai: They voted out Quinn! Let's see who might be afraid of them by the history
+[17:05:55] Brook: I think noah is sus
+[17:06:23] Brook: Kai what do you say?
+[17:06:26] Brook: Noah?
+[17:06:34] Dylan: we have to get Kai out
+[17:06:36] Skylar: who to voteeeee???
+[17:06:44] Kai: Quinn voted for Brook and then got eliminated! Hence, Brook is suspicious
+[17:06:51] Noah: I think Brook or Kai
+[17:06:59] Brook: So let's go with Kai
+[17:07:07] Dylan: yes for sure Kai
+[17:07:20] Kai: Dylan continues to push against me. Therefore, Dylan might work with Brook
+[17:07:22] Brook: when are we gonna vote
+[17:07:24] Skylar: ok kai
+[17:07:25] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[17:07:27] Game-Manager: Brook voted for Kai
+[17:07:31] Game-Manager: Kai voted for Brook
+[17:07:32] Game-Manager: Dylan voted for Kai
+[17:07:32] Game-Manager: Skylar voted for Kai
+[17:07:35] Game-Manager: Noah voted for Brook
+[17:07:35] Game-Manager: Kai was voted out. Their role was bystander

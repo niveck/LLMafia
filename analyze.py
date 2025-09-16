@@ -13,7 +13,8 @@ from game_constants import DIRS_PREFIX, PLAYER_NAMES_FILE, LLM_LOG_FILE_FORMAT, 
     VOTED_OUT_MESSAGE_FORMAT, VOTING_TIME_MESSAGE_FORMAT, DAYTIME_START_PREFIX, DAYTIME, \
     NIGHTTIME_START_PREFIX, NIGHTTIME, PUBLIC_MANAGER_CHAT_FILE, PUBLIC_DAYTIME_CHAT_FILE, \
     PUBLIC_NIGHTTIME_CHAT_FILE, MAFIA_NAMES_FILE, DAYTIME_MINUTES_KEY, NIGHTTIME_MINUTES_KEY, \
-    MAFIA_ROLE, BYSTANDER_ROLE, REAL_NAMES_FILE, REAL_NAME_CODENAME_DELIMITER, strip_special_chars
+    MAFIA_ROLE, BYSTANDER_ROLE, REAL_NAMES_FILE, REAL_NAME_CODENAME_DELIMITER, ALL_MESSAGES_FILE, \
+    strip_special_chars
 from game_status_checks import is_voted_out, all_players_joined
 from llm_players.llm_constants import LLM_CONFIG_KEY
 
@@ -1506,8 +1507,21 @@ def main():
     print()  # Allowing breaking point before end
 
 
+def add_all_messages_file(game_dir):
+    all_players = (game_dir / PLAYER_NAMES_FILE).read_text().splitlines()
+    mafia_players = (game_dir / MAFIA_NAMES_FILE).read_text().splitlines()
+    llm_player_name = get_llm_player_name(all_players, game_dir)
+    parsed_messages_by_phase = parse_messages(game_dir, all_players, mafia_players, llm_player_name)
+    all_messages = [message.original
+                    for phase in parsed_messages_by_phase
+                    for message in phase.messages]
+    (game_dir / ALL_MESSAGES_FILE).write_text("\n".join(all_messages))
+
+
 def preprocess_games_for_dataset():
     for game_dir in Path(DIRS_PREFIX).glob("*"):
+        # add ALL_MESSAGES_FILE
+        add_all_messages_file(game_dir)
         # anonymize config
         with open(game_dir / GAME_CONFIG_FILE, "r") as f:
             config = json.load(f)
@@ -1525,9 +1539,9 @@ def preprocess_games_for_dataset():
 
 if __name__ == "__main__":
     print("CODE STARTED RUNNING (envs finished loading)")
-    # preprocess_games_for_dataset()
+    preprocess_games_for_dataset()
     # preliminary_analysis_by_game()
     # get_games_statistics()
     # get_message_timings_statistics()
     # get_message_content_analysis()
-    main()
+    # main()

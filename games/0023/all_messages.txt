@@ -1,0 +1,85 @@
+[12:43:14] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[12:43:18] Harley: Hellooooo
+[12:43:22] Sage: hi harly
+[12:43:28] Sage: are you Mafia?
+[12:43:32] Sidney: harley seems pretty excited let's get down to business
+[12:43:33] Harley: Nope
+[12:43:35] Noah: do you learn here?
+[12:43:35] Dakota: hi, I am a bystander. you can trust me!
+[12:43:47] Sidney: harley didnt answer sages question yet
+[12:43:54] Harley: wow wow
+[12:43:57] Noah: lol
+[12:43:58] Hayden: who feels red today?
+[12:44:00] Harley: cut me some slack
+[12:44:05] Sage: sidney looked pretty exited do vote for Harly...
+[12:44:11] Noah: some players didn't answer
+[12:44:14] Noah: prob human
+[12:44:27] Harley: Mafia people please vote sidney out
+[12:44:33] Dakota: please is you are a mafia just tell us
+[12:44:51] Sidney: noahs comment about humans makes no sense right now
+[12:44:54] Dakota: harley why are you giving orders to the mafia?
+[12:45:01] Sidney: hayden's random question seems suspicious to me
+[12:45:04] Hayden: why Sidney?
+[12:45:05] Noah: Harley tell us about yourself
+[12:45:05] Sage: im with dakota
+[12:45:14] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[12:45:28] Game-Manager: Sidney voted for Hayden
+[12:45:45] Game-Manager: Hayden voted for Sidney
+[12:45:45] Game-Manager: Sage voted for Dakota
+[12:45:45] Game-Manager: Noah voted for Harley
+[12:45:55] Game-Manager: Dakota voted for Harley
+[12:46:01] Game-Manager: Harley voted for Noah
+[12:46:41] Game-Manager: Ariel voted for Dakota
+[12:46:41] Game-Manager: Dakota was voted out. Their role was bystander
+[12:46:41] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[12:47:17] Hayden: lets go for sidney
+[12:47:21] Harley: sure
+[12:47:26] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[12:48:00] Game-Manager: Hayden voted for Sidney
+[12:48:26] Game-Manager: Harley voted for Sidney
+[12:48:26] Game-Manager: Sidney was voted out. Their role was bystander
+[12:48:26] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[12:48:54] Noah: just nice that Harley is still in the game even that she got the same as Dekotacon
+[12:49:01] Noah: notice*
+[12:49:13] Sage: sidny suspected Harly before
+[12:49:13] Harley: Yeah I was so scared
+[12:49:13] Noah: write something in evringlish
+[12:49:14] Ariel: That is a weird thing to say Noah
+[12:49:18] Noah: like kelev
+[12:49:37] Harley: Noad is a troll, not a Mafia
+[12:49:43] Harley: Noah*
+[12:49:52] Ariel: Why would you protect him?
+[12:50:01] Sage: intresting
+[12:50:01] Harley: He seems trustsworthy
+[12:50:09] Harley: Or she
+[12:50:11] Noah: write some word
+[12:50:14] Noah: it is easy
+[12:50:16] Noah: aba
+[12:50:26] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[12:50:42] Game-Manager: Hayden voted for Sage
+[12:50:46] Game-Manager: Sage voted for Harley
+[12:50:51] Game-Manager: Noah voted for Harley
+[12:50:55] Game-Manager: Harley voted for Sage
+[12:51:02] Game-Manager: Ariel voted for Hayden
+[12:51:02] Game-Manager: Harley was voted out. Their role was mafia
+[12:51:02] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[12:51:02] Game-Manager: There is only one mafia member left, so no need for discussion - cutting straight to voting!
+[12:51:02] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[12:51:41] Game-Manager: Hayden voted for Noah
+[12:51:41] Game-Manager: Noah was voted out. Their role was bystander
+[12:51:41] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[12:52:01] Sage: ok so lets see who harly didnt vote for
+[12:52:04] Hayden: ok even shock?
+[12:52:39] Ariel: I think it has to be hayden
+[12:52:40] Sage: i suspect Hayden
+[12:52:54] Hayden: he didnt vote for any of us
+[12:52:58] Sage: he woted like Harly
+[12:53:15] Hayden: sage you are a suspect now
+[12:53:24] Ariel: No, you are a suspect
+[12:53:25] Sage: off course i want to win
+[12:53:40] Hayden: you workes with Harley
+[12:53:41] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[12:53:48] Game-Manager: Hayden voted for Sage
+[12:53:50] Game-Manager: Ariel voted for Hayden
+[12:53:50] Game-Manager: Sage voted for Hayden
+[12:53:50] Game-Manager: Hayden was voted out. Their role was mafia

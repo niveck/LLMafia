@@ -1,0 +1,99 @@
+[17:41:35] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:41:35] Noah: Hello!
+[17:41:42] Ari: Halooo
+[17:41:43] Skylar: Hello
+[17:41:43] Bailey: Hiiii
+[17:41:47] Reese: Hiii
+[17:41:48] Peyton: hiii
+[17:41:49] Addison: i'm here let's get started
+[17:41:50] Ari: Let's start it
+[17:42:01] Skylar: Addison is here we can get started
+[17:42:11] Ari: So is Skylar
+[17:42:11] Addison: let's figure out who we can trust first
+[17:42:12] Reese: okkkkkk lets go
+[17:42:21] Skylar: Classic Ari
+[17:42:21] Peyton: i vote reese
+[17:42:27] Ari: Addison speaks words of wisdo,
+[17:42:29] Skylar: So it's Peyton
+[17:42:41] Ari: Why Peyton? Give us a reason
+[17:42:43] Reese: It must be Peyton
+[17:42:46] Ari: Or else you are sus
+[17:42:50] Reese: he seems sus
+[17:42:53] Skylar: Ari is sus as fus
+[17:42:58] Peyton: you sus
+[17:43:04] Bailey: Skyler is just pointing fingers
+[17:43:04] Addison: peyton voted pretty quickly
+[17:43:08] Ari: Why? You just accused someone
+[17:43:09] Reese: Peyton is a sus name
+[17:43:15] Skylar: +1
+[17:43:20] Peyton: +2
+[17:43:23] Addison: ari is being really defensive right now
+[17:43:24] Noah: Peyton accused Reese for no reason
+[17:43:34] Ari: Either Skylar or Peyton - Both accusing people for no reason
+[17:43:34] Reese: true dat
+[17:43:35] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[17:43:40] Game-Manager: Noah voted for Peyton
+[17:43:42] Game-Manager: Bailey voted for Peyton
+[17:43:43] Game-Manager: Ari voted for Peyton
+[17:43:45] Game-Manager: Addison voted for Peyton
+[17:43:45] Game-Manager: Peyton voted for Reese
+[17:43:46] Game-Manager: Reese voted for Peyton
+[17:43:49] Game-Manager: Skylar voted for Peyton
+[17:43:49] Game-Manager: Peyton was voted out. Their role was bystander
+[17:43:49] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:43:57] Skylar: h
+[17:44:00] Skylar: hi
+[17:44:01] Noah: hi
+[17:44:09] Noah: who do you want?
+[17:44:11] Noah: ari?
+[17:44:14] Skylar: yes
+[17:44:23] Noah: ok
+[17:44:34] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[17:44:38] Game-Manager: Skylar voted for Ari
+[17:44:38] Game-Manager: Noah voted for Ari
+[17:44:38] Game-Manager: Ari was voted out. Their role was bystander
+[17:44:38] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:45:05] Noah: who wanted Ari dead?
+[17:45:16] Addison: mafia got another bystander during nighttime
+[17:45:20] Noah: Addison?
+[17:45:31] Skylar: That's what I wanted to say
+[17:45:42] Skylar: or was that Reese?
+[17:45:53] Reese: not me
+[17:45:56] Reese: im innocent
+[17:46:13] Reese: im Reese Whiterspoon
+[17:46:31] Skylar: how do you eat your soup
+[17:46:38] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[17:46:45] Game-Manager: Addison voted for Skylar
+[17:46:47] Game-Manager: Reese voted for Skylar
+[17:46:48] Game-Manager: Noah voted for Addison
+[17:46:50] Game-Manager: Bailey voted for Skylar
+[17:46:51] Game-Manager: Skylar voted for Addison
+[17:46:51] Game-Manager: Skylar was voted out. Their role was mafia
+[17:46:51] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[17:46:51] Game-Manager: There is only one mafia member left, so no need for discussion - cutting straight to voting!
+[17:46:51] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[17:47:12] Game-Manager: Noah voted for Addison
+[17:47:12] Game-Manager: Addison was voted out. Their role was bystander
+[17:47:12] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[17:47:27] Noah: so
+[17:47:43] Reese: this is akward..
+[17:47:45] Bailey: I think it's Noah
+[17:47:53] Noah: not me
+[17:48:01] Noah: maybe Reese?
+[17:48:07] Reese: i also think Noah
+[17:48:12] Reese: nopeee..
+[17:48:13] Bailey: that what a mafia would say
+[17:48:21] Reese: i eat soups
+[17:48:24] Reese: not mafia
+[17:48:26] Noah: If he was a bystander then the mafia would kill him before
+[17:48:32] Noah: her
+[17:48:34] Noah: sorry
+[17:48:45] Bailey: so Noah right?
+[17:48:46] Reese: Noah is vvvverryyy sus
+[17:48:49] Reese: yes
+[17:48:56] Noah: nooo
+[17:49:12] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[17:49:16] Game-Manager: Reese voted for Noah
+[17:49:17] Game-Manager: Noah voted for Reese
+[17:49:18] Game-Manager: Bailey voted for Noah
+[17:49:18] Game-Manager: Noah was voted out. Their role was mafia

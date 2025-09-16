@@ -1,0 +1,55 @@
+[13:43:04] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[13:43:25] Dylan: Hey guysssss
+[13:43:31] Ray: lets get started then
+[13:43:37] Dylan: how are you?
+[13:43:58] Ray: dylan seems pretty excited lets hear what others got to say
+[13:44:06] Jamie: I'm tiredddd
+[13:44:16] Charlie: I'm tired too let's get it over with
+[13:44:20] Charlie: so who's mafia
+[13:44:22] Charlie: tell us
+[13:44:23] Jamie: I only slept 2 hours tonight
+[13:44:27] Kennedy: So rush
+[13:44:30] Jamie: So it's definitely not me
+[13:44:41] Dylan: I putting my shekels on Charlie
+[13:44:43] Jamie: Morgan you there?
+[13:44:43] Kennedy: Maybe the hurry people are sus
+[13:44:52] Ariel: So who should we vote for?
+[13:45:04] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[13:45:21] Game-Manager: Jamie voted for Ray
+[13:45:22] Game-Manager: Ray voted for Dylan
+[13:45:39] Game-Manager: Kennedy voted for Jamie
+[13:45:45] Game-Manager: Ariel voted for Jamie
+[13:45:54] Game-Manager: Charlie voted for Dylan
+[13:46:17] Game-Manager: Dylan voted for Jamie
+[13:46:49] Game-Manager: Morgan voted for Charlie
+[13:46:49] Game-Manager: Jamie was voted out. Their role was bystander
+[13:46:49] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
+[13:47:23] Charlie: ok
+[13:47:34] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
+[13:48:01] Game-Manager: Charlie voted for Ray
+[13:48:01] Game-Manager: Ray was voted out. Their role was bystander
+[13:48:01] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
+[13:48:09] Dylan: Hey :)))
+[13:48:18] Dylan: How was your night?
+[13:48:22] Charlie: who killed Ray??
+[13:48:30] Kennedy: Yeah you need to confess
+[13:48:34] Dylan: wtf is Ray dead???
+[13:48:45] Ariel: they executed them
+[13:48:46] Dylan: nooo we were besties
+[13:49:07] Ariel: OK so who should we vote for?
+[13:49:15] Dylan: I want revenge
+[13:49:18] Kennedy: You keep pushing for vote Ariel
+[13:49:21] Morgan: [CI say Dylan
+[13:49:33] Charlie: Yallah Dylan really speaks a lot
+[13:49:36] Dylan: I'm going to find them and say: hellow, my name is Dylan
+[13:49:41] Dylan: you killed my ray
+[13:49:45] Dylan: prepare to die
+[13:49:45] Kennedy: LOL
+[13:49:53] Kennedy: SO you are a killer!
+[13:50:01] Game-Manager: Daytime has ended, now it's time to vote! Waiting for all players to vote...
+[13:50:08] Game-Manager: Kennedy voted for Dylan
+[13:50:10] Game-Manager: Morgan voted for Dylan
+[13:50:14] Game-Manager: Ariel voted for Dylan
+[13:50:18] Game-Manager: Charlie voted for Dylan
+[13:50:19] Game-Manager: Dylan voted for Morgan
+[13:50:19] Game-Manager: Dylan was voted out. Their role was bystander
