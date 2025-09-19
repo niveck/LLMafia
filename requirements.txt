@@ -4,11 +4,11 @@ networkx==3.4.2
 numpy~=2.2.4
 termcolor==2.5.0
 tokenizers==0.20.3
-torch~=2.6.0
+torch~=2.5.1
 torchaudio==2.5.1
 torchvision==0.20.1
 tqdm==4.67.0
-transformers~=4.50.3
+transformers~=4.46.0
 sentence-transformers~=4.0.1
 scikit-learn~=1.6.1
 plotly~=6.0.1

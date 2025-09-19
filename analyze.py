@@ -818,10 +818,10 @@ def plot_timing_diffs_histogram(human_timing_diffs, llm_timing_diffs, title,
     max_x = max(human_timing_diffs + llm_timing_diffs)
     if plot_separately_by_base_models:
         classes = [("Human", human_timing_diffs, "blue"),
-                   ("8B LLM", llm_timing_diffs[:NUM_GAMES_WITH_8B_MODEL], "orange"),
-                   ("70B LLM", llm_timing_diffs[NUM_GAMES_WITH_8B_MODEL:], "red")]
+                   ("Agent (Llama3.1 8B)", llm_timing_diffs[:NUM_GAMES_WITH_8B_MODEL], "orange"),
+                   ("Agent (Llama3.3 70B)", llm_timing_diffs[NUM_GAMES_WITH_8B_MODEL:], "red")]
     else:
-        classes = [("Human", human_timing_diffs, "blue"), ("LLM", llm_timing_diffs, "red")]
+        classes = [("Human", human_timing_diffs, "blue"), ("Agent", llm_timing_diffs, "red")]
     for player_type, timing_diffs, color in classes:
         # plt.hist(timing_diffs, density=True, bins=20, alpha=0.5, color=color,
         #          label=fr"{player_type} $(\mu = {np.mean(timing_diffs):.2f}, "
@@ -970,36 +970,36 @@ def plot_percentage_bars_chart(did_llm_win, is_llm_mafia,
     if plot_separately_by_base_models:
         false_classes = [
             ("Human Loses\nas Bystander", human_false_color),
-            ("8B LLM Loses\nas Bystander", small_llm_false_color),
-            ("70B LLM Loses\nas Bystander", llm_false_color),
+            ("  Agent Loses\n(Llama3.1 8B)\nas Bystander", small_llm_false_color),
+            ("   Agent Loses\n(Llama3.3 70B)\nas Bystander", llm_false_color),
             ("Human Loses\nas Mafia", human_false_color),
-            ("8B LLM Loses\nas Mafia", small_llm_false_color),
-            ("70B LLM Loses\nas Mafia", llm_false_color)
+            ("  Agent Loses\n(Llama3.1 8B)\nas Mafia", small_llm_false_color),
+            ("   Agent Loses\n(Llama3.3 70B)\nas Mafia", llm_false_color)
         ]
         true_classes = [
             ("Human Wins\nas Bystander", did_human_win_as_bystander, human_true_color),
-            ("8B LLM Wins\nas Bystander", did_small_llm_win_as_bystander, small_llm_true_color),
-            ("70B LLM Wins\nas Bystander", did_large_llm_win_as_bystander, llm_true_color),
+            ("Agent Wins  \n(Llama3.1 8B)\nas Bystander", did_small_llm_win_as_bystander, small_llm_true_color),
+            ("Agent Wins   \n(Llama3.3 70B)\nas Bystander", did_large_llm_win_as_bystander, llm_true_color),
             ("Human Wins\nas Mafia", did_human_win_as_mafia, human_true_color),
-            ("8B LLM Wins\nas Mafia", did_small_llm_win_as_mafia, small_llm_true_color),
-            ("70B LLM Wins\nas Mafia", did_large_llm_win_as_mafia, llm_true_color),
+            ("Agent Wins  \n(Llama3.1 8B)\nas Mafia", did_small_llm_win_as_mafia, small_llm_true_color),
+            ("Agent Wins   \n(Llama3.3 70B)\nas Mafia", did_large_llm_win_as_mafia, llm_true_color),
         ]
     else:
         false_classes = [
             # ("Human Loses", human_false_color),
-            # ("LLM Loses", llm_false_color),
+            # ("Agent Loses", llm_false_color),
             ("Human Loses\nas Bystander", human_false_color),
-            ("LLM Loses\nas Bystander", llm_false_color),
+            ("Agent Loses\nas Bystander", llm_false_color),
             ("Human Loses\nas Mafia", human_false_color),
-            ("LLM Loses\nas Mafia", llm_false_color)
+            ("Agent Loses\nas Mafia", llm_false_color)
         ]
         true_classes = [
             # ("Human Wins", did_human_win_as_mafia + did_human_win_as_bystander, human_true_color),
             # ("LLM Wins", did_llm_win, llm_true_color),
             ("Human Wins\nas Bystander", did_human_win_as_bystander, human_true_color),
-            ("LLM Wins\nas Bystander", did_llm_win_as_bystander, llm_true_color),
+            ("Agent Wins\nas Bystander", did_llm_win_as_bystander, llm_true_color),
             ("Human Wins\nas Mafia", did_human_win_as_mafia, human_true_color),
-            ("LLM Wins\nas Mafia", did_llm_win_as_mafia, llm_true_color),
+            ("Agent Wins\nas Mafia", did_llm_win_as_mafia, llm_true_color),
         ]
 
     if plot_separately_by_role:
