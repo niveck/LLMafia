@@ -3,7 +3,7 @@
 Our Mafia games code for an **Asynchronous LLM Agent** playing games of *Mafia* with multiple human players.
 
 <p align="center">
-    🌐 <a href="https://niveck.github.io/Time-to-Talk/" target="_blank">Project</a> | 📃 <a href="https://arxiv.org/abs/2506.05309" target="_blank">Paper</a> | 📚 <a href="https://huggingface.co/datasets/niveck/LLMafia" target="_blank">Dataset</a><br>
+    🌐 <a href="https://niveck.github.io/Time-to-Talk/" target="_blank">Project</a> | 📃 <a href="https://aclanthology.org/2025.findings-emnlp.608/" target="_blank">Paper</a> | 📚 <a href="https://huggingface.co/datasets/niveck/LLMafia" target="_blank">Dataset</a><br>
 </p>
 
 
@@ -13,7 +13,7 @@ ___
 
 > **Time to Talk: 🕵️‍♂️ LLM Agents for Asynchronous Group Communication in Mafia Games**<br>
 > Niv Eckhaus, Uri Berger, Gabriel Stanovsky<br>
-> <a href="https://arxiv.org/abs/2506.05309" target="_blank">https://arxiv.org/abs/2506.05309<br>
+> <a href="https://aclanthology.org/2025.findings-emnlp.608/" target="_blank">https://aclanthology.org/2025.findings-emnlp.608/</a><br>
 >
 >**Abstract:** LLMs are used predominantly in *synchronous* communication, where a human user and a model communicate in alternating turns. In contrast, many real-world settings are *asynchronous*. For example, in group chats, online team meetings, or social games, there is no inherent notion of turns. In this work, we develop an adaptive asynchronous LLM agent consisting of two modules: a generator that decides *what to say*, and a scheduler that decides *when to say it*. To evaluate our agent, we collect a unique dataset of online Mafia games, where our agent plays with human participants. Overall, our agent performs on par with human players, both in game performance metrics and in its ability to blend in with the other human players. Our analysis shows that the agent's behavior in deciding when to speak closely mirrors human patterns, although differences emerge in message content. We make all of our code and data publicly available. This work paves the way for integration of LLMs into realistic human group settings, from assistance in team discussions to educational and professional environments where complex social dynamics must be navigated.
 
@@ -51,13 +51,13 @@ Analysis of the dataset is described thoroughly in our paper, with a focus on ou
 If you find this useful for your research, please use the following:
 
 ```
-@misc{eckhaus2025timetalkllmagents,
-      title={Time to Talk: LLM Agents for Asynchronous Group Communication in Mafia Games}, 
-      author={Niv Eckhaus and Uri Berger and Gabriel Stanovsky},
-      year={2025},
-      eprint={2506.05309},
-      archivePrefix={arXiv},
-      primaryClass={cs.MA},
-      url={https://arxiv.org/abs/2506.05309}, 
+@inproceedings{eckhaus-etal-2025-time,
+  title = "Time to Talk: {LLM} Agents for Asynchronous Group Communication in Mafia Games",
+  author = "Eckhaus, Niv and Berger, Uri and Stanovsky, Gabriel",
+  booktitle = "Findings of the Association for Computational Linguistics: EMNLP 2025",
+  year = "2025",
+  publisher = "Association for Computational Linguistics",
+  url = "https://aclanthology.org/2025.findings-emnlp.608/",
+  pages = "11356--11368"
 }
 ```
