@@ -18,14 +18,14 @@ class Player:
         self.personal_status_file = game_dir / PERSONAL_STATUS_FILE_FORMAT.format(self.name)
 
     def get_new_messages(self):
-        with open(self.personal_chat_file, "r") as f:
+        with open(self.personal_chat_file, "r", encoding="utf-8", errors="ignore") as f:
             # the readlines method includes the "\n"
             lines = f.readlines()[self.personal_chat_file_lines_read:]
         self.personal_chat_file_lines_read += len(lines)
         return lines
 
     def get_voted_player(self):
-        all_votes = self.personal_vote_file.read_text().splitlines()
+        all_votes = self.personal_vote_file.read_text(encoding="utf-8", errors="ignore").splitlines()
         new_votes = all_votes[self.personal_vote_file_lines_read:]
         if new_votes:
             self.personal_vote_file_lines_read += len(new_votes)  # should be 1 if works correctly
@@ -37,7 +37,7 @@ class Player:
         self.personal_status_file.write_text(VOTED_OUT)
 
 def get_config():
-    with open(game_dir / GAME_CONFIG_FILE, "r") as f:
+    with open(game_dir / GAME_CONFIG_FILE, "r", encoding="utf-8", errors="ignore") as f:
         config = json.load(f)
     return config
 
@@ -68,12 +68,12 @@ def is_game_over(players):
 def run_chat_round_between_players(players, chat_room):
     for player in players:
         lines = player.get_new_messages()
-        with open(chat_room, "a") as f:
+        with open(chat_room, "a", encoding="utf-8") as f:
             f.writelines(lines)  # lines already include "\n"
 
 def notify_players_about_voting_time(phase_name, public_chat_file):
     phase_end_message = DAYTIME_VOTING_TIME_MESSAGE
-    with open(public_chat_file, "a") as f:  # only to the current phase's active players chat room
+    with open(public_chat_file, "a", encoding="utf-8") as f:  # only to the current phase's active players chat room
         f.write(format_message(GAME_MANAGER_NAME, phase_end_message))
     voting_phase_name = DAYTIME_VOTING_TIME
     (game_dir / PHASE_STATUS_FILE).write_text(voting_phase_name)
@@ -90,7 +90,7 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players,
             if voted_for in votes:
                 if not anonymous_voting:
                     # Non-anonymous: show who voted for whom
-                    with open(public_chat_file, "a") as f:
+                    with open(public_chat_file, "a", encoding="utf-8") as f:
                         voting_message = VOTING_MESSAGE_FORMAT.format(player.name, voted_for)
                         f.write(format_message(GAME_MANAGER_NAME, voting_message))
                 votes[voted_for] += 1
@@ -102,7 +102,7 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players,
     
     # For anonymous voting, show vote counts after all votes are in
     if anonymous_voting:
-        with open(public_chat_file, "a") as f:
+        with open(public_chat_file, "a", encoding="utf-8") as f:
             f.write(format_message(GAME_MANAGER_NAME, "Voting results:"))
             for player_name in sorted(votes.keys()):
                 vote_count = votes[player_name]
@@ -115,7 +115,7 @@ def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_
     notify_players_about_voting_time(phase_name, public_chat_file)
     voted_out_name = get_voted_out_name(optional_votes_players, public_chat_file, voting_players[:], anonymous_voting)
     # update info file of remaining players
-    remaining_players = (game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines()
+    remaining_players = (game_dir / REMAINING_PLAYERS_FILE).read_text(encoding="utf-8", errors="ignore").splitlines()
     remaining_players.remove(voted_out_name)
     (game_dir / REMAINING_PLAYERS_FILE).write_text("\n".join(remaining_players))
     # update player object status
@@ -125,7 +125,7 @@ def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_
     announce_voted_out_player(voted_out_player)
 
 def game_manager_announcement(message):
-    with open(game_dir / PUBLIC_MANAGER_CHAT_FILE, "a") as f:
+    with open(game_dir / PUBLIC_MANAGER_CHAT_FILE, "a", encoding="utf-8") as f:
         f.write(format_message(GAME_MANAGER_NAME, message))
 
 def announce_voted_out_player(voted_out_player):
@@ -159,7 +159,7 @@ def wait_for_players(players):
     while havent_joined_yet:
         joined = []
         for player in havent_joined_yet:
-            if bool(player.personal_status_file.read_text()):  # file isn't empty once joined
+            if bool(player.personal_status_file.read_text(encoding="utf-8", errors="ignore")):  # file isn't empty once joined
                 joined.append(player)
                 print(f"{player.name} has joined!")
         for player in joined:
@@ -168,7 +168,7 @@ def wait_for_players(players):
     print("Game is now running! Its content is displayed to players.")
 
 def get_all_player_out_of_voting_time():
-    current_phase = (game_dir / PHASE_STATUS_FILE).read_text()
+    current_phase = (game_dir / PHASE_STATUS_FILE).read_text(encoding="utf-8", errors="ignore")
     (game_dir / PHASE_STATUS_FILE).write_text(current_phase.replace(VOTING_TIME, ""))
 
 def end_game():
