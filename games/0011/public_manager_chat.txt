@@ -1,7 +1,0 @@
-[16:12:37] Game-Manager: Now it's Daytime for 2.5 minutes, everyone can communicate and see messages and votes.
-[16:16:37] Game-Manager: Dylan was voted out. Their role was mafia
-[16:16:37] Game-Manager: Now it's Nighttime for 1 minutes, only mafia can communicate and see messages and votes.
-[16:16:37] Game-Manager: There is only one mafia member left, so no need for discussion - cutting straight to voting!
-[16:18:32] Game-Manager: Eden was voted out. Their role was bystander
-[16:18:32] Game-Manager: Now it's Daytime for 2.5 minutes, everyone can communicate and see messages and votes.
-[16:22:09] Game-Manager: Ashton was voted out. Their role was mafia

@@ -1,6 +1,0 @@
-Was the LLM identified - 1
-similarity to human behavior - 3
-timing of messaging - 5
-relevance of messages - 2
-Comments:
-weird messages

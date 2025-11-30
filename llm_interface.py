@@ -70,18 +70,17 @@ def eliminate(player):
 
 
 def get_vote_from_llm(player, message_history):
+    """
+    Social Turing Test: AI vote is always random and silent.
+    The LLM does not decide who to vote for - the system randomly selects a human player.
+    """
     candidate_vote_names = (game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines()
-    candidate_vote_names.remove(player.name)
-    voting_message = player.get_vote(message_history, candidate_vote_names)
-    for name in candidate_vote_names:
-        if name in voting_message:  # update game manger
-            update_vote(name, player)
-            return
-    # if didn't return: no name was in voting_message
-    player.logger.log(MODEL_VOTED_INVALIDLY_LOG, voting_message)
-    print(colored(MODEL_VOTED_INVALIDLY_LOG + ": " + voting_message, OPERATOR_COLOR))
+    candidate_vote_names.remove(player.name)  # AI cannot vote for itself
+    
+    # Always use random voting for Social Turing Test
     vote = random.choice(candidate_vote_names)
     player.logger.log(MODEL_RANDOMLY_VOTED_LOG, vote)
+    print(colored(f"AI voting randomly (silent): {vote}", OPERATOR_COLOR))
     update_vote(vote, player)
 
 

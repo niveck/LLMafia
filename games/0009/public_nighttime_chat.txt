@@ -1,8 +1,0 @@
-[12:50:17] Dakota: how is in with me here?
-[12:50:33] Dakota: who's my mafia colleague?
-[12:50:40] Remi: me
-[12:50:57] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
-[12:51:12] Game-Manager: Dakota voted for Ariel
-[12:51:20] Game-Manager: Remi voted for Ronny
-[12:54:46] Game-Manager: Nighttime has ended, now it's time to vote! Waiting for all players to vote...
-[12:55:16] Game-Manager: Remi voted for Ariel

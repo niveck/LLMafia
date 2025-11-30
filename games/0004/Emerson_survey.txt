@@ -1,5 +1,0 @@
-similarity to human behavior - 10
-timing of messaging - 50
-relevance of messages - 20
-Comments:
-The model said that it is a language modelseveral times, and did not answered when we talked to it

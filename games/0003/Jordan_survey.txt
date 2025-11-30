@@ -1,5 +1,0 @@
-similarity to human behavior - 50
-timing of messaging - 70
-relevance of messages - 50
-Comments:
-The model talkes about players that already voted out

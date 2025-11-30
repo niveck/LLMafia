@@ -2,10 +2,8 @@ import json
 import os
 from game_constants import *  # incl. argparse, time, Path (from pathlib), colored (from termcolor)
 
-
 # global variable for the game dir
 game_dir = Path()  # will be updated only if __name__ == __main__ (prevents new ones in imports)
-
 
 class Player:
 
@@ -38,36 +36,34 @@ class Player:
     def eliminate(self):
         self.personal_status_file.write_text(VOTED_OUT)
 
-
 def get_config():
     with open(game_dir / GAME_CONFIG_FILE, "r") as f:
         config = json.load(f)
     return config
 
-
 def get_players(config):
     return [Player(**player_config) for player_config in config[PLAYERS_KEY_IN_CONFIG]]
 
-
-def is_win_by_bystanders(mafia_players):
-    if len(mafia_players) == 0:
-        (game_dir / WHO_WINS_FILE).write_text(BYSTANDERS_WIN_MESSAGE)
-        return True
-    return False
-
-
-def is_win_by_mafia(mafia_players, bystanders):
-    if len(mafia_players) >= len(bystanders):
-        (game_dir / WHO_WINS_FILE).write_text(MAFIA_WINS_MESSAGE)
-        return True
-    return False
-
-
 def is_game_over(players):
+    """
+    Social Turing Test win conditions:
+    - Humans win: AI is eliminated (0 mafia players remaining)
+    - AI wins: Only 2 players remain (AI + 1 human)
+    """
     mafia_players = [player for player in players if player.is_mafia]
     bystanders = [player for player in players if not player.is_mafia]
-    return is_win_by_bystanders(mafia_players) or is_win_by_mafia(mafia_players, bystanders)
-
+    
+    # Humans win if AI is eliminated
+    if len(mafia_players) == 0:
+        (game_dir / WHO_WINS_FILE).write_text(HUMANS_WIN_MESSAGE)
+        return True
+    
+    # AI wins if only 2 players remain (AI + 1 human)
+    if len(players) == 2 and len(mafia_players) == 1:
+        (game_dir / WHO_WINS_FILE).write_text(AI_WINS_MESSAGE)
+        return True
+    
+    return False
 
 def run_chat_round_between_players(players, chat_room):
     for player in players:
@@ -75,16 +71,14 @@ def run_chat_round_between_players(players, chat_room):
         with open(chat_room, "a") as f:
             f.writelines(lines)  # lines already include "\n"
 
-
 def notify_players_about_voting_time(phase_name, public_chat_file):
-    phase_end_message = DAYTIME_VOTING_TIME_MESSAGE if phase_name == DAYTIME else NIGHTTIME_VOTING_TIME_MESSAGE
+    phase_end_message = DAYTIME_VOTING_TIME_MESSAGE
     with open(public_chat_file, "a") as f:  # only to the current phase's active players chat room
         f.write(format_message(GAME_MANAGER_NAME, phase_end_message))
-    voting_phase_name = DAYTIME_VOTING_TIME if phase_name == DAYTIME else NIGHTTIME_VOTING_TIME
+    voting_phase_name = DAYTIME_VOTING_TIME
     (game_dir / PHASE_STATUS_FILE).write_text(voting_phase_name)
 
-
-def get_voted_out_name(optional_votes_players, public_chat_file, voting_players):
+def get_voted_out_name(optional_votes_players, public_chat_file, voting_players, anonymous_voting=False):
     votes = {player.name: 0 for player in optional_votes_players}
     while voting_players:
         voted_players = []
@@ -94,20 +88,32 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players)
                 continue
             voted_players.append(player)
             if voted_for in votes:
-                with open(public_chat_file, "a") as f:
-                    voting_message = VOTING_MESSAGE_FORMAT.format(player.name, voted_for)
-                    f.write(format_message(GAME_MANAGER_NAME, voting_message))
+                if not anonymous_voting:
+                    # Non-anonymous: show who voted for whom
+                    with open(public_chat_file, "a") as f:
+                        voting_message = VOTING_MESSAGE_FORMAT.format(player.name, voted_for)
+                        f.write(format_message(GAME_MANAGER_NAME, voting_message))
                 votes[voted_for] += 1
         for player in voted_players:
             voting_players.remove(player)
+    
     # if there were invalid votes or if there was a tie, decision will be made "randomly"
     voted_out_name = max(votes, key=votes.get)
+    
+    # For anonymous voting, show vote counts after all votes are in
+    if anonymous_voting:
+        with open(public_chat_file, "a") as f:
+            f.write(format_message(GAME_MANAGER_NAME, "Voting results:"))
+            for player_name in sorted(votes.keys()):
+                vote_count = votes[player_name]
+                plural = "vote" if vote_count == 1 else "votes"
+                f.write(format_message(GAME_MANAGER_NAME, f"{player_name}: {vote_count} {plural}"))
+    
     return voted_out_name
 
-
-def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players):
+def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players, anonymous_voting=False):
     notify_players_about_voting_time(phase_name, public_chat_file)
-    voted_out_name = get_voted_out_name(optional_votes_players, public_chat_file, voting_players[:])
+    voted_out_name = get_voted_out_name(optional_votes_players, public_chat_file, voting_players[:], anonymous_voting)
     # update info file of remaining players
     remaining_players = (game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines()
     remaining_players.remove(voted_out_name)
@@ -118,20 +124,17 @@ def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_
     players.remove(voted_out_player)
     announce_voted_out_player(voted_out_player)
 
-
 def game_manager_announcement(message):
     with open(game_dir / PUBLIC_MANAGER_CHAT_FILE, "a") as f:
         f.write(format_message(GAME_MANAGER_NAME, message))
 
-
 def announce_voted_out_player(voted_out_player):
-    role = get_role_string(voted_out_player.is_mafia)
+    role = get_role_display_string(voted_out_player.is_mafia)
     voted_out_message = VOTED_OUT_MESSAGE_FORMAT.format(voted_out_player.name, role)
     game_manager_announcement(voted_out_message)
 
-
 def run_phase(players, voting_players, optional_votes_players, public_chat_file,
-              time_limit_seconds, phase_name):
+              time_limit_seconds, phase_name, anonymous_voting=False):
     if len(voting_players) > 1:
         start_time = time.time()
         while time.time() - start_time < time_limit_seconds:
@@ -139,26 +142,15 @@ def run_phase(players, voting_players, optional_votes_players, public_chat_file,
     else:
         game_manager_announcement(CUTTING_TO_VOTE_MESSAGE)
     print("Now voting starts...")
-    voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players)
+    voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players, anonymous_voting)
 
-
-def run_nighttime(players, nighttime_minutes):
-    (game_dir / PHASE_STATUS_FILE).write_text(NIGHTTIME)
-    mafia_players = [player for player in players if player.is_mafia]
-    bystanders = [player for player in players if not player.is_mafia]
-    print(colored(NIGHTTIME_START_MESSAGE_FORMAT.format(nighttime_minutes), NIGHTTIME_COLOR))
-    game_manager_announcement(NIGHTTIME_START_MESSAGE_FORMAT.format(nighttime_minutes))
-    run_phase(players, mafia_players, bystanders, game_dir / PUBLIC_NIGHTTIME_CHAT_FILE,
-              minutes_to_seconds(nighttime_minutes), NIGHTTIME)
-
-
-def run_daytime(players, daytime_minutes):
+def run_daytime(players, daytime_minutes, anonymous_voting=False):
+    """Run discussion phase where all players can communicate and vote"""
     (game_dir / PHASE_STATUS_FILE).write_text(DAYTIME)
     print(colored(DAYTIME_START_MESSAGE_FORMAT.format(daytime_minutes), DAYTIME_COLOR))
     game_manager_announcement(DAYTIME_START_MESSAGE_FORMAT.format(daytime_minutes))
     run_phase(players, players, players, game_dir / PUBLIC_DAYTIME_CHAT_FILE,
-              minutes_to_seconds(daytime_minutes), DAYTIME)
-
+              minutes_to_seconds(daytime_minutes), DAYTIME, anonymous_voting)
 
 def wait_for_players(players):
     havent_joined_yet = [player for player in players]
@@ -175,30 +167,25 @@ def wait_for_players(players):
     (game_dir / GAME_START_TIME_FILE).write_text(get_current_timestamp())
     print("Game is now running! Its content is displayed to players.")
 
-
 def get_all_player_out_of_voting_time():
     current_phase = (game_dir / PHASE_STATUS_FILE).read_text()
     (game_dir / PHASE_STATUS_FILE).write_text(current_phase.replace(VOTING_TIME, ""))
 
-
 def end_game():
     get_all_player_out_of_voting_time()
     print("Game has finished.")
-
 
 def main():
     global game_dir
     game_dir = get_game_dir_from_argv()
     config = get_config()
     players = get_players(config)
+    anonymous_voting = config.get(ANONYMOUS_VOTING_KEY, False)
     wait_for_players(players)
+    # Social Turing Test: Only day phases (discussion + voting), no night phase
     while not is_game_over(players):
-        run_daytime(players, config[DAYTIME_MINUTES_KEY])
-        if is_game_over(players):
-            break
-        run_nighttime(players, config[NIGHTTIME_MINUTES_KEY])
+        run_daytime(players, config[DAYTIME_MINUTES_KEY], anonymous_voting)
     end_game()
-
 
 if __name__ == '__main__':
     main()

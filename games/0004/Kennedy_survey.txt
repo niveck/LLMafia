@@ -1,5 +1,0 @@
-similarity to human behavior - 10
-timing of messaging - 20
-relevance of messages - 30
-Comments:
-The LLM revealed it self

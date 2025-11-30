@@ -1,5 +1,0 @@
-similarity to human behavior - 60
-timing of messaging - 70
-relevance of messages - 80
-Comments:
-The model wrote too fast at the begining of the game

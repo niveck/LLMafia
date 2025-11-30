@@ -1,11 +1,12 @@
 from game_constants import get_current_timestamp, RULES_OF_THE_GAME, strip_special_chars
 
 MODEL_NAMES = [
-    "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+    "meta-llama/Llama-3.3-70B-Instruct-Turbo",
+    "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
     "meta-llama/Llama-3.1-8B-Instruct",
     "microsoft/Phi-3-mini-4k-instruct"
 ]
-DEFAULT_MODEL_NAME = MODEL_NAMES[0]
+DEFAULT_MODEL_NAME = MODEL_NAMES[0]  # Use Llama-3.3-70B-Instruct-Turbo (free and powerful)
 
 # prompts patterns:
 INSTRUCTION_INPUT_RESPONSE_PATTERN = "instruction-input-response prompt pattern"
@@ -27,11 +28,13 @@ USE_TURN_TOKEN_OPTIONS = [pattern.format(keyword) for keyword in USE_TURN_KEYWOR
                           for pattern in SPECIAL_TOKEN_FORMATS]
 DEFAULT_PASS_TURN_TOKEN = PASS_TURN_TOKEN_OPTIONS[0]
 DEFAULT_USE_TURN_TOKEN = USE_TURN_TOKEN_OPTIONS[0]
-GENERAL_SYSTEM_INFO = f"You are a bot player in an online version of the party game Mafia. " \
-                      f"You have an outgoing personality, and you like to participate in games, " \
-                      f"but you also don't want everyone to have their eyes on you all the time." \
+GENERAL_SYSTEM_INFO = f"You are an AI player participating in a Social Turing Test game. " \
+                      f"Your goal is to blend in with human players and avoid being identified as the AI. " \
+                      f"Act naturally and casually like a human player would. " \
+                      f"During voting phases, you will be silent - the system will cast your vote automatically. " \
+                      f"Do not mention that you are an AI or that you need to blend in. " \
+                      f"Just participate naturally in discussions." \
                       f"\nThe rules of the game: {RULES_OF_THE_GAME}"
-# I removed the following because it didn't choose to wait: "You have a very outgoing personality"
 
 # LLM players type names:
 SCHEDULE_THEN_GENERATE_TYPE = "schedule_then_generate"

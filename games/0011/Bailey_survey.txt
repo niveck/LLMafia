@@ -1,6 +1,0 @@
-Was the LLM identified - 1
-similarity to human behavior - 5
-timing of messaging - 4
-relevance of messages - 5
-Comments:
-it actually was a good AI which could know to speak some perfectly senttences that made sence

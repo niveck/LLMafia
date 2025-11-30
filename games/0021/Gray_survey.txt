@@ -1,6 +1,0 @@
-Was the LLM identified - 1
-similarity to human behavior - 2
-timing of messaging - 2
-relevance of messages - 2
-Comments:
-long sentances, too complicated, no one was typing

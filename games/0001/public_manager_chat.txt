@@ -1,8 +1,2 @@
-[14:16:47] Game-Manager: Now it's Daytime for 3 minutes, everyone can communicate and see messages and votes.
-[14:20:35] Game-Manager: Remi was voted out. Their role was bystander
-[14:20:35] Game-Manager: Now it's Nighttime for 1 minutes, only mafia can communicate and see messages and votes.
-[14:21:53] Game-Manager: Brook was voted out. Their role was bystander
-[14:21:53] Game-Manager: Now it's Daytime for 3 minutes, everyone can communicate and see messages and votes.
-[14:25:17] Game-Manager: Bailey was voted out. Their role was bystander
-[14:25:17] Game-Manager: Now it's Nighttime for 1 minutes, only mafia can communicate and see messages and votes.
-[14:26:35] Game-Manager: Charlie was voted out. Their role was bystander
+[01:01:01] Game-Manager: Now it's Discussion Time for 2 minutes. Everyone can communicate. Try to identify who the AI is!
+[01:04:47] Game-Manager: Lennon was eliminated. They were: Human

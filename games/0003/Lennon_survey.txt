@@ -1,5 +1,0 @@
-similarity to human behavior - 85
-timing of messaging - 20
-relevance of messages - 50
-Comments:
-The LLM talks in a formal way, using phrases like "desperate attempt". \nThe LLM is always the first to talk.\nThe LLM contiued answering after it was voted out

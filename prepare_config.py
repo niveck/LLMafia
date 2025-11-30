@@ -41,7 +41,7 @@ from dataclasses import dataclass, asdict, field
 from game_constants import DEFAULT_CONFIG_DIR, DEFAULT_NUM_PLAYERS, DEFAULT_NUM_MAFIA, \
     MINIMUM_NUM_PLAYERS_FOR_ONE_MAFIA, MINIMUM_NUM_PLAYERS_FOR_MULT_MAFIA, OPTIONAL_CODE_NAMES, \
     WARNING_LIMIT_NUM_MAFIA, PLAYERS_KEY_IN_CONFIG, DEFAULT_DAYTIME_MINUTES, \
-    DEFAULT_NIGHTTIME_MINUTES, DAYTIME_MINUTES_KEY, NIGHTTIME_MINUTES_KEY
+    DEFAULT_NIGHTTIME_MINUTES, DAYTIME_MINUTES_KEY, NIGHTTIME_MINUTES_KEY, ANONYMOUS_VOTING_KEY
 from llm_players.llm_constants import INT_CONFIG_KEYS, FLOAT_CONFIG_KEYS, DEFAULT_LLM_CONFIG, \
     LLM_CONFIG_KEYS_OPTIONS, BOOL_CONFIG_KEYS
 
@@ -83,6 +83,8 @@ def parse_args():
                         help="number of minutes for Daytime phase")
     parser.add_argument("-nt", "--nighttime_minutes", type=float, default=DEFAULT_NIGHTTIME_MINUTES,
                         help="number of minutes for Nighttime phase")
+    parser.add_argument("-a", "--anonymous_voting", action="store_true",
+                        help="whether to use anonymous voting (show vote counts instead of individual votes)")
     args = parser.parse_args()
     return args
 
@@ -115,27 +117,23 @@ def handle_num_players(args):
     if num_players is None:
         num_players = DEFAULT_NUM_PLAYERS
         print(f"Using default number of total players: {DEFAULT_NUM_PLAYERS}")
-    elif num_players < MINIMUM_NUM_PLAYERS_FOR_ONE_MAFIA:
-        raise ValueError(f"{num_players} is not enough players to play a game! "
-                         f"Minimum is {MINIMUM_NUM_PLAYERS_FOR_ONE_MAFIA} players.")
+    elif num_players < 3:
+        raise ValueError(f"{num_players} is not enough players for Social Turing Test! "
+                         f"Minimum is 3 players (1 AI + 2 humans).")
     else:
         print(f"Using number of total players: {num_players}")
-    num_mafia = args.mafia
-    if num_mafia is None:
-        num_mafia = 1 if num_players < MINIMUM_NUM_PLAYERS_FOR_MULT_MAFIA else DEFAULT_NUM_MAFIA
-        print(f"Using default number of mafia players: {num_mafia}")
-    elif num_mafia > 1 and num_players < MINIMUM_NUM_PLAYERS_FOR_MULT_MAFIA:
-        raise ValueError(f"With only {num_players} players you can only have one mafia!")
-    else:
-        print(f"Using number of mafia players: {num_mafia}")
-    if num_mafia >= WARNING_LIMIT_NUM_MAFIA:
-        print(f"Pay attention that {num_mafia} mafia players might be too many "
-              f"if you don't have enough players in total...")
+    
+    # Social Turing Test: Always exactly 1 imposter (will be the AI)
+    num_mafia = 1
+    print(f"Social Turing Test mode: Exactly 1 Imposter (AI) among {num_players} total players")
+    
     code_names = random.sample(OPTIONAL_CODE_NAMES, num_players)
     player_configs = [PlayerConfig(code_name) for code_name in code_names]
-    mafia_players = random.sample(player_configs, num_mafia)
-    for mafia_player in mafia_players:
-        mafia_player.is_mafia = True
+    
+    # Select one player to be the imposter (will be assigned to AI)
+    mafia_player = random.choice(player_configs)
+    mafia_player.is_mafia = True
+    
     return player_configs
 
 
@@ -180,20 +178,16 @@ def handle_llm_participation(args, player_configs):
     num_llms = args.llm
     print(f"Using {num_llms} LLM player{'' if num_llms == 1 else ''}")
     if num_llms > 0:
-        if args.bystander:
-            print("The LLM can only be a bystander, not mafia "
-                  "(was set by the -b/--bystander argument)")
-            potential_llm_players = [player_config for player_config in player_configs
-                                     if not player_config.is_mafia]
-        else:
-            print("The LLM will be assigned a bystander/mafia role randomly "
-                  "(use -b/--bystander to only use the LLM as a bystander)")
-            potential_llm_players = player_configs
-        llm_players = random.sample(potential_llm_players, num_llms)
-        for i, llm_player in enumerate(llm_players):
-            llm_player.is_llm = True
-            llm_player.real_name = f"LLM{i}"
-            llm_player.llm_config = get_llm_config(llm_player.real_name, args)
+        # Social Turing Test: AI is ALWAYS the Imposter
+        # Find the player that was assigned is_mafia=True
+        mafia_player = [player for player in player_configs if player.is_mafia][0]
+        
+        # Assign the LLM to be the Imposter
+        mafia_player.is_llm = True
+        mafia_player.real_name = "LLM0"
+        mafia_player.llm_config = get_llm_config(mafia_player.real_name, args)
+        
+        print(f"Social Turing Test: The AI is assigned as the Imposter")
 
 
 def assign_real_names(args, player_configs):
@@ -226,9 +220,11 @@ def assign_real_names(args, player_configs):
 
 
 def save_config(args, output_file, player_configs):
+    # Social Turing Test: no night phase, so nighttime = 0
     config = {PLAYERS_KEY_IN_CONFIG: [asdict(player_config) for player_config in player_configs],
               DAYTIME_MINUTES_KEY: args.daytime_minutes,
-              NIGHTTIME_MINUTES_KEY: args.nighttime_minutes,
+              NIGHTTIME_MINUTES_KEY: 0,  # Always 0 for Social Turing Test (no night phase)
+              ANONYMOUS_VOTING_KEY: args.anonymous_voting,
               "notes": input("Add notes to this config: [or enter to skip] ").strip(),
               "preparation_command": " ".join(sys.argv)}
     with open(output_file, "w") as f:

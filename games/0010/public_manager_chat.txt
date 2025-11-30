@@ -1,6 +1,0 @@
-[14:37:12] Game-Manager: Now it's Daytime for 2.5 minutes, everyone can communicate and see messages and votes.
-[14:40:33] Game-Manager: Alex was voted out. Their role was bystander
-[14:40:33] Game-Manager: Now it's Nighttime for 1 minutes, only mafia can communicate and see messages and votes.
-[14:41:47] Game-Manager: Ariel was voted out. Their role was bystander
-[14:41:47] Game-Manager: Now it's Daytime for 2.5 minutes, everyone can communicate and see messages and votes.
-[14:45:04] Game-Manager: Frankie was voted out. Their role was bystander

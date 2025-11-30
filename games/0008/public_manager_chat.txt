@@ -1,6 +1,0 @@
-[12:17:15] Game-Manager: Now it's Daytime for 3 minutes, everyone can communicate and see messages and votes.
-[12:21:37] Game-Manager: Lee was voted out. Their role was bystander
-[12:21:37] Game-Manager: Now it's Nighttime for 1 minutes, only mafia can communicate and see messages and votes.
-[12:22:48] Game-Manager: Jordan was voted out. Their role was bystander
-[12:22:48] Game-Manager: Now it's Daytime for 3 minutes, everyone can communicate and see messages and votes.
-[12:26:04] Game-Manager: Winter was voted out. Their role was bystander

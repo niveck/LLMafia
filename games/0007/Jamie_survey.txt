@@ -1,6 +1,0 @@
-Was the LLM identified - 0
-similarity to human behavior - 1
-timing of messaging - 1
-relevance of messages - 2
-Comments:
-The main issue with stevie was that it repeated itself so many times

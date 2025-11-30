@@ -1,6 +1,0 @@
-[21:22:55] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
-[21:25:23] Game-Manager: Winter was voted out. Their role was bystander
-[21:25:23] Game-Manager: Now it's Nighttime for 0.75 minutes, only mafia can communicate and see messages and votes.
-[21:26:14] Game-Manager: Ari was voted out. Their role was bystander
-[21:26:14] Game-Manager: Now it's Daytime for 2 minutes, everyone can communicate and see messages and votes.
-[21:28:32] Game-Manager: Sage was voted out. Their role was bystander

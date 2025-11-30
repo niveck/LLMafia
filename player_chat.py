@@ -37,10 +37,16 @@ def welcome_player(game_dir):
     print(colored(CODE_NAME_REVELATION_MESSAGE_FORMAT.format(real_name), MANAGER_COLOR))
     print(colored(name, MANAGER_COLOR, attrs=["bold"]))
     is_mafia = get_is_mafia(name, game_dir)
-    role = get_role_string(is_mafia)
-    role_color = NIGHTTIME_COLOR if is_mafia else DAYTIME_COLOR
-    print(colored(ROLE_REVELATION_MESSAGE, MANAGER_COLOR))
-    print(colored(role + "\n", role_color))
+    
+    # Only show role for AI player
+    if is_mafia:
+        role = get_role_display_string(is_mafia)
+        role_color = NIGHTTIME_COLOR
+        print(colored(ROLE_REVELATION_MESSAGE, MANAGER_COLOR))
+        print(colored(role + "\n", role_color))
+    else:
+        print()  # Just add spacing for human players
+    
     (game_dir / PERSONAL_STATUS_FILE_FORMAT.format(name)).write_text(JOINED)
     introducing_mafia_members(game_dir, is_mafia, name)
     print(colored(WAITING_FOR_ALL_PLAYERS_TO_JOIN_MESSAGE, MANAGER_COLOR))

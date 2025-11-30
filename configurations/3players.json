@@ -41,6 +41,5 @@
     "daytime_minutes": 2,
     "nighttime_minutes": 0,
     "notes": "",
-    "preparation_command": "prepare_config.py -p 3 -l 1 -n configurations/name_files/rehearsal.txt -o 3players",
-    "config_original_path_when_game_created": ".\\configurations\\3players.json"
+    "preparation_command": "prepare_config.py -p 3 -l 1 -n configurations/name_files/rehearsal.txt -o 3players"
 }
