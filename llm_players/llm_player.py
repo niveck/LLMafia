@@ -12,10 +12,10 @@ class LLMPlayer(ABC):
 
     TYPE_NAME = None
 
-    def __init__(self, name, is_mafia, llm_config, game_dir, **kwargs):
+    def __init__(self, name, is_ai, llm_config, game_dir, **kwargs):
         self.name = name
-        self.is_mafia = is_mafia
-        self.role = get_role_string(is_mafia)
+        self.is_ai = is_ai
+        self.role = get_role_string(is_ai)
         self.game_dir = game_dir
         self.logger = Logger(name, game_dir)
         self.pass_turn_token = llm_config[PASS_TURN_TOKEN_KEY]

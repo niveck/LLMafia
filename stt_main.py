@@ -7,9 +7,9 @@ game_dir = Path()  # will be updated only if __name__ == __main__ (prevents new 
 
 class Player:
 
-    def __init__(self, name, is_mafia, **kwargs):
+    def __init__(self, name, is_ai, **kwargs):
         self.name = name
-        self.is_mafia = is_mafia
+        self.is_ai = is_ai
         self.personal_chat_file = game_dir / PERSONAL_CHAT_FILE_FORMAT.format(self.name)
         self.personal_chat_file_lines_read = 0
         self.personal_vote_file = game_dir / PERSONAL_VOTE_FILE_FORMAT.format(self.name)
@@ -50,16 +50,16 @@ def is_game_over(players):
     - Humans win: AI is eliminated (0 mafia players remaining)
     - AI wins: Only 2 players remain (AI + 1 human)
     """
-    mafia_players = [player for player in players if player.is_mafia]
-    bystanders = [player for player in players if not player.is_mafia]
+    ai_players = [player for player in players if player.is_ai]
+    human_players = [player for player in players if not player.is_ai]
     
     # Humans win if AI is eliminated
-    if len(mafia_players) == 0:
+    if len(ai_players) == 0:
         (game_dir / WHO_WINS_FILE).write_text(HUMANS_WIN_MESSAGE)
         return True
     
     # AI wins if only 2 players remain (AI + 1 human)
-    if len(players) == 2 and len(mafia_players) == 1:
+    if len(players) == 2 and len(ai_players) == 1:
         (game_dir / WHO_WINS_FILE).write_text(AI_WINS_MESSAGE)
         return True
     
@@ -135,7 +135,7 @@ def game_manager_announcement(message):
         f.write(format_message(GAME_MANAGER_NAME, message))
 
 def announce_voted_out_player(voted_out_player):
-    role = get_role_display_string(voted_out_player.is_mafia)
+    role = get_role_display_string(voted_out_player.is_ai)
     voted_out_message = VOTED_OUT_MESSAGE_FORMAT.format(voted_out_player.name, role)
     game_manager_announcement(voted_out_message)
 

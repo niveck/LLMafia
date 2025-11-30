@@ -1,6 +1,5 @@
 import re
 from game_constants import REMAINING_PLAYERS_FILE, GAME_MANAGER_NAME, MESSAGE_PARSING_PATTERN
-from game_status_checks import is_nighttime
 from llm_players.llm_constants import turn_task_into_prompt, SCHEDULE_THEN_GENERATE_TYPE, \
     make_more_human_like, SCHEDULING_GENERATION_PARAMETERS, TALKATIVE_PROMPT, QUIETER_PROMPT
 from llm_players.llm_player import LLMPlayer
@@ -50,7 +49,8 @@ class ScheduleThenGeneratePlayer(LLMPlayer):
             return ""
 
     def talkative_scheduling_prompt_modifier(self, message_history):
-        if not message_history or is_nighttime(self.game_dir):
+        # Social Turing Test: no nighttime phase
+        if not message_history:
             return TALKATIVE_PROMPT
         all_players = (self.game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines()
         players_counts = {player: 0 for player in all_players}

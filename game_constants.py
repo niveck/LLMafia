@@ -17,14 +17,13 @@ DIRS_PREFIX = "./games"  # working directory must be the repo
 GAME_CONFIG_FILE = "config.json"
 PLAYER_NAMES_FILE = "player_names.txt"
 REMAINING_PLAYERS_FILE = "remaining_players.txt"
-MAFIA_NAMES_FILE = "mafia_names.txt"
+AI_PLAYER_FILE = "ai_player.txt"  # File containing the AI player's name
 REAL_NAMES_FILE = "real_names.txt"  # mapping of real names to code names
 PHASE_STATUS_FILE = "phase_status.txt"
 WHO_WINS_FILE = "who_wins.txt"
 GAME_START_TIME_FILE = "game_start_time.txt"
 PUBLIC_MANAGER_CHAT_FILE = "public_manager_chat.txt"
 PUBLIC_DAYTIME_CHAT_FILE = "public_daytime_chat.txt"
-PUBLIC_NIGHTTIME_CHAT_FILE = "public_nighttime_chat.txt"
 ALL_MESSAGES_FILE = "all_messages.txt"
 # file that is initial used for players to write "joined", and then for host to write "eliminated"
 PERSONAL_STATUS_FILE_FORMAT = "{}_status.txt"
@@ -35,19 +34,15 @@ PERSONAL_SURVEY_FILE_FORMAT = "{}_survey.txt"
 LLM_LOG_FILE_FORMAT = "{}_log.txt"
 
 # constant strings for info files
-NIGHTTIME = "Nighttime"
 DAYTIME = "Daytime"
 VOTING_TIME = "Voting"
-NIGHTTIME_VOTING_TIME = NIGHTTIME + "_" + VOTING_TIME  # keeps the is_nighttime function mechanism
 DAYTIME_VOTING_TIME = DAYTIME + "_" + VOTING_TIME
 JOINED = "JOINED\n"
 VOTED_OUT = "VOTED_OUT\n"
-MAFIA_ROLE = "mafia"  # internal use only
+AI_ROLE = "ai"  # internal use only
 BYSTANDER_ROLE = "bystander"  # internal use only
 IMPOSTER_ROLE = "AI"  # display name
 HUMAN_ROLE = "Human"  # display name
-MAFIA_WINS_MESSAGE = "AI wins!"
-BYSTANDERS_WIN_MESSAGE = "Humans win!"
 AI_WINS_MESSAGE = "AI wins!"
 HUMANS_WIN_MESSAGE = "Humans win!"
 GAME_MANAGER_NAME = "Game-Manager"
@@ -73,14 +68,10 @@ REAL_NAME_CODENAME_DELIMITER = ": "  # <real name>: <codename>
 DAYTIME_START_PREFIX = "Now it's Discussion Time"  # used for analysis
 DAYTIME_START_MESSAGE_FORMAT = DAYTIME_START_PREFIX + " for {} minutes. " \
                                "Everyone can communicate. Try to identify who the AI is!"
-NIGHTTIME_START_PREFIX = "Now it's Nighttime"  # used for analysis (kept for compatibility)
-NIGHTTIME_START_MESSAGE_FORMAT = NIGHTTIME_START_PREFIX + " for {} minutes, " \
-                                 "only mafia can communicate and see messages and votes."
 VOTING_TIME_MESSAGE_FORMAT = "Discussion phase has ended, now it's time to vote! " \
                              "Who do you think is the AI? Waiting for all players to vote..."
 CUTTING_TO_VOTE_MESSAGE = "Only two players remain - cutting straight to voting!"
 DAYTIME_VOTING_TIME_MESSAGE = VOTING_TIME_MESSAGE_FORMAT
-NIGHTTIME_VOTING_TIME_MESSAGE = VOTING_TIME_MESSAGE_FORMAT  # not used but kept for compatibility
 
 # new configuration preparation constants
 PLAYERS_KEY_IN_CONFIG = "players"
@@ -98,16 +89,13 @@ OPTIONAL_CODE_NAMES = [  # I've tried using mainly unisex names, as suggest by C
     "Ray", "Reese", "Remi", "Riley", "River", "Robin", "Ronny", "Rowan", "Sage", "Sam", "Sidney",
     "Skylar", "Stevie", "Sutton", "Terry", "Tyler", "Whitney", "Winter", "Ziggy"]
 random.shuffle(OPTIONAL_CODE_NAMES)  # without it some names are sampled too often...
-DEFAULT_NIGHTTIME_MINUTES = 0.75  # 1  # like in Ibraheem et al. 2022
 DEFAULT_DAYTIME_MINUTES = 2  # 2.5  # 3  # it was 2:30 in Ibraheem et al. 2022
 DAYTIME_MINUTES_KEY = "daytime_minutes"
-NIGHTTIME_MINUTES_KEY = "nighttime_minutes"
 ANONYMOUS_VOTING_KEY = "anonymous_voting"
 
 # human player interface constants
 MANAGER_COLOR = "green"
 DAYTIME_COLOR = "light_blue"
-NIGHTTIME_COLOR = "red"
 CONSENT_COLOR = "light_grey"
 PARTICIPATION_CONSENT_MESSAGE = "Thank you for participating in our research. By participating " \
                                 "you are giving consent to use your input for research purposes, " \
@@ -193,12 +181,13 @@ def strip_special_chars(content):
     return re.search(r"^[^a-zA-Z0-9]*(.*?)[^a-zA-Z0-9]*$", content).group(1)
 
 
-def get_role_string(is_mafia):
-    return MAFIA_ROLE if is_mafia else BYSTANDER_ROLE
+def get_role_string(is_ai):
+    """Get internal role string (for config/logs)"""
+    return AI_ROLE if is_ai else BYSTANDER_ROLE
 
-def get_role_display_string(is_mafia):
+def get_role_display_string(is_ai):
     """Get user-facing role name for display"""
-    return IMPOSTER_ROLE if is_mafia else HUMAN_ROLE
+    return IMPOSTER_ROLE if is_ai else HUMAN_ROLE
 
 
 def get_game_dir_from_argv():

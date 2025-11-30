@@ -1,8 +1,8 @@
 import json
 import random
 from game_constants import *  # incl. argparse, time, Path (from pathlib), colored (from termcolor)
-from game_status_checks import is_nighttime, is_game_over, is_voted_out, is_time_to_vote, \
-    all_players_joined
+from game_status_checks import is_game_over, is_voted_out, is_time_to_vote, \
+    all_players_joined, get_is_ai
 from llm_players.factory import llm_player_factory
 from llm_players.llm_constants import GAME_DIR_KEY, VOTING_WAITING_TIME, MAX_TIME_TO_WAIT
 
@@ -53,8 +53,7 @@ def wait_writing_time(player, message):
     if player.num_words_per_second_to_wait > 0:
         num_words = len(message.split())
         time_to_wait = min(num_words // player.num_words_per_second_to_wait, MAX_TIME_TO_WAIT)
-        if is_nighttime(game_dir):
-            time_to_wait //= 2
+        # Social Turing Test: no nighttime phase, so no adjustment needed
         time.sleep(time_to_wait)
         # TODO: leave only working part
         # time.sleep(num_words // player.num_words_per_second_to_wait)
@@ -92,16 +91,14 @@ def update_vote(voted_name, player):
 
 
 def add_message_to_game(player, message_history):
-    is_nighttime_at_start = is_nighttime(game_dir)
-    if not player.is_mafia and is_nighttime_at_start:
-        return  # only mafia can communicate during nighttime
+    # Social Turing Test: no nighttime restrictions, AI can always chat during discussion phase
     message = player.generate_message(message_history).strip()
     if is_time_to_vote(game_dir):
         return  # sometimes the messages is generated when it's already too late, so drop it
     if message:
         # artificially making the model taking time to write the message
         wait_writing_time(player, message)
-        if is_nighttime(game_dir) != is_nighttime_at_start or is_time_to_vote(game_dir):
+        if is_time_to_vote(game_dir):
             return  # waited for too long
         with open(game_dir / PERSONAL_CHAT_FILE_FORMAT.format(player.name), "a") as f:
             f.write(format_message(player.name, message))
@@ -122,22 +119,19 @@ def main():
         continue
     print(colored(ALL_PLAYERS_JOINED_MESSAGE, OPERATOR_COLOR))
     message_history = []
-    num_read_lines_manager = num_read_lines_daytime = num_read_lines_nighttime = 0
+    num_read_lines_manager = num_read_lines_daytime = 0
     eliminated = False
     while not is_game_over(game_dir):
         num_read_lines_manager += read_messages_from_file(
             message_history, PUBLIC_MANAGER_CHAT_FILE, num_read_lines_manager)
-        # only current phase file will have new messages, so no need to run expensive is_nighttime()
+        # Social Turing Test: Only daytime chat, no nighttime
         num_read_lines_daytime += read_messages_from_file(
             message_history, PUBLIC_DAYTIME_CHAT_FILE, num_read_lines_daytime)
-        if player.is_mafia:  # only mafia can see what happens during nighttime
-            num_read_lines_nighttime += read_messages_from_file(
-                message_history, PUBLIC_NIGHTTIME_CHAT_FILE, num_read_lines_nighttime)
         if is_voted_out(player.name, game_dir):
             eliminate(player)
             eliminated = True
             break
-        if is_time_to_vote(game_dir) and (player.is_mafia or not is_nighttime(game_dir)):
+        if is_time_to_vote(game_dir):
             get_vote_from_llm(player, message_history)
             while is_time_to_vote(game_dir):
                 continue  # wait for voting time to end when all players have voted

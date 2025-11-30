@@ -1,5 +1,4 @@
 from game_constants import REMAINING_PLAYERS_FILE, GAME_MANAGER_NAME, MESSAGE_PARSING_PATTERN
-from game_status_checks import is_nighttime
 from llm_players.llm_constants import turn_task_into_prompt, EVERY_X_MESSAGES_TYPE, \
     make_more_human_like
 from llm_players.llm_player import LLMPlayer
@@ -18,10 +17,8 @@ class EveryXMessagesPlayer(LLMPlayer):  # TODO implement this!
         # self.scheduler = self.llm  # trying to use the same one for generation...
 
     def should_generate_message(self, message_history):
-        if is_nighttime(self.game_dir):
-            every_x = 2
-        else:
-            every_x = len((self.game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines())
+        # Social Turing Test: no nighttime, always use number of remaining players
+        every_x = len((self.game_dir / REMAINING_PLAYERS_FILE).read_text().splitlines())
         current_phase_messages = 0
         for message in message_history[::-1]:
             if f"] {GAME_MANAGER_NAME}: " in message and "voted for" in message:

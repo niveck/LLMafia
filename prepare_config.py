@@ -41,7 +41,7 @@ from dataclasses import dataclass, asdict, field
 from game_constants import DEFAULT_CONFIG_DIR, DEFAULT_NUM_PLAYERS, DEFAULT_NUM_MAFIA, \
     MINIMUM_NUM_PLAYERS_FOR_ONE_MAFIA, MINIMUM_NUM_PLAYERS_FOR_MULT_MAFIA, OPTIONAL_CODE_NAMES, \
     WARNING_LIMIT_NUM_MAFIA, PLAYERS_KEY_IN_CONFIG, DEFAULT_DAYTIME_MINUTES, \
-    DEFAULT_NIGHTTIME_MINUTES, DAYTIME_MINUTES_KEY, NIGHTTIME_MINUTES_KEY, ANONYMOUS_VOTING_KEY
+    DAYTIME_MINUTES_KEY, ANONYMOUS_VOTING_KEY
 from llm_players.llm_constants import INT_CONFIG_KEYS, FLOAT_CONFIG_KEYS, DEFAULT_LLM_CONFIG, \
     LLM_CONFIG_KEYS_OPTIONS, BOOL_CONFIG_KEYS
 
@@ -54,10 +54,21 @@ LLM_CONFIG_KEYS_INDEXED_OPTIONS = {
 @dataclass
 class PlayerConfig:
     name: str  # player's code name from the game's pool (in constants file)
-    is_mafia: bool = False
-    is_llm: bool = False
+    is_ai: bool = False  # is this player the AI (imposter)?
+    is_llm: bool = False  # is this player controlled by LLM?
     real_name: str = ""
     llm_config: dict = field(default_factory=dict)
+    
+    # Backwards compatibility property
+    @property
+    def is_mafia(self):
+        """Backwards compatibility: is_mafia maps to is_ai"""
+        return self.is_ai
+    
+    @is_mafia.setter
+    def is_mafia(self, value):
+        """Backwards compatibility: setting is_mafia sets is_ai"""
+        self.is_ai = value
 
 
 def parse_args():
@@ -81,8 +92,8 @@ def parse_args():
                         help="optional path to LLM configuration as json (has to be complete)")
     parser.add_argument("-dt", "--daytime_minutes", type=float, default=DEFAULT_DAYTIME_MINUTES,
                         help="number of minutes for Daytime phase")
-    parser.add_argument("-nt", "--nighttime_minutes", type=float, default=DEFAULT_NIGHTTIME_MINUTES,
-                        help="number of minutes for Nighttime phase")
+    parser.add_argument("-nt", "--nighttime_minutes", type=float, default=0,
+                        help="number of minutes for Nighttime phase (deprecated - always 0 in Social Turing Test)")
     parser.add_argument("-a", "--anonymous_voting", action="store_true",
                         help="whether to use anonymous voting (show vote counts instead of individual votes)")
     args = parser.parse_args()
@@ -223,7 +234,7 @@ def save_config(args, output_file, player_configs):
     # Social Turing Test: no night phase, so nighttime = 0
     config = {PLAYERS_KEY_IN_CONFIG: [asdict(player_config) for player_config in player_configs],
               DAYTIME_MINUTES_KEY: args.daytime_minutes,
-              NIGHTTIME_MINUTES_KEY: 0,  # Always 0 for Social Turing Test (no night phase)
+              "nighttime_minutes": 0,  # Always 0 for Social Turing Test (no night phase)
               ANONYMOUS_VOTING_KEY: args.anonymous_voting,
               "notes": input("Add notes to this config: [or enter to skip] ").strip(),
               "preparation_command": " ".join(sys.argv)}

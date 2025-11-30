@@ -26,9 +26,9 @@ from game_status_checks import (
     is_game_over,
     is_time_to_vote,
     all_players_joined,
-    get_is_mafia,
-    get_role_display_string,
+    get_is_ai,
 )
+from game_constants import get_role_display_string
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
@@ -45,10 +45,10 @@ class WebPlayer:
     so we only send *new* messages to the browser.
     """
 
-    def __init__(self, game_dir: Path, name: str, is_mafia: bool):
+    def __init__(self, game_dir: Path, name: str, is_ai: bool):
         self.game_dir = game_dir
         self.name = name
-        self.is_mafia = is_mafia
+        self.is_ai = is_ai
 
         self.personal_chat_file = game_dir / PERSONAL_CHAT_FILE_FORMAT.format(name)
         self.personal_vote_file = game_dir / PERSONAL_VOTE_FILE_FORMAT.format(name)
@@ -174,23 +174,23 @@ def join_game():
         return jsonify({"error": "Name not found in game"}), 404
 
     code_name = real_to_code[real_name]
-    is_mafia = get_is_mafia(code_name, game_dir)
+    is_ai = get_is_ai(code_name, game_dir)
 
     # Create WebPlayer session
     session_id = secrets.token_hex(8)
-    player_states[session_id] = WebPlayer(game_dir, code_name, is_mafia)
+    player_states[session_id] = WebPlayer(game_dir, code_name, is_ai)
 
     # Mark as joined (same semantics as original CLI client)
     status_file = game_dir / PERSONAL_STATUS_FILE_FORMAT.format(code_name)
     status_file.write_text(JOINED, encoding="utf-8")
 
-    role_display = get_role_display_string(is_mafia) if is_mafia else None
+    role_display = get_role_display_string(is_ai) if is_ai else None
 
     return jsonify(
         {
             "session_id": session_id,
             "code_name": code_name,
-            "is_ai": is_mafia,
+            "is_ai": is_ai,
             "role": role_display,
             # RULES_OF_THE_GAME is still available if you ever want a static area,
             # but we no longer inject it as a separate chat bubble to avoid duplicates.

@@ -3,8 +3,8 @@ import json
 import argparse
 from pathlib import Path
 from game_constants import DIRS_PREFIX, DEFAULT_GAME_CONFIG, GAME_ID_NUM_DIGITS, GAME_CONFIG_FILE, \
-    PLAYER_NAMES_FILE, REMAINING_PLAYERS_FILE, MAFIA_NAMES_FILE, PHASE_STATUS_FILE, DAYTIME, \
-    PUBLIC_MANAGER_CHAT_FILE, PUBLIC_DAYTIME_CHAT_FILE, PUBLIC_NIGHTTIME_CHAT_FILE, WHO_WINS_FILE, \
+    PLAYER_NAMES_FILE, REMAINING_PLAYERS_FILE, AI_PLAYER_FILE, PHASE_STATUS_FILE, DAYTIME, \
+    PUBLIC_MANAGER_CHAT_FILE, PUBLIC_DAYTIME_CHAT_FILE, WHO_WINS_FILE, \
     GAME_START_TIME_FILE, NOTES_FILE, REAL_NAME_CODENAME_DELIMITER, REAL_NAMES_FILE, \
     PLAYERS_KEY_IN_CONFIG, PERSONAL_STATUS_FILE_FORMAT, PERSONAL_CHAT_FILE_FORMAT, \
     PERSONAL_VOTE_FILE_FORMAT, LLM_LOG_FILE_FORMAT, PERSONAL_SURVEY_FILE_FORMAT
@@ -55,15 +55,14 @@ def init_game(game_id, config_path):
     all_names_str = "\n".join([player.name for player in players])
     (game_dir / PLAYER_NAMES_FILE).write_text(all_names_str)
     (game_dir / REMAINING_PLAYERS_FILE).write_text(all_names_str)
-    all_mafia_names_str = [player.name for player in players if player.is_mafia]
-    (game_dir / MAFIA_NAMES_FILE).write_text("\n".join(all_mafia_names_str))
+    all_ai_names_str = [player.name for player in players if player.is_ai]
+    (game_dir / AI_PLAYER_FILE).write_text("\n".join(all_ai_names_str))
     real_name_to_codename_str = [f"{player.real_name}{REAL_NAME_CODENAME_DELIMITER}{player.name}"
                                  for player in players if not player.is_llm]
     (game_dir / REAL_NAMES_FILE).write_text("\n".join(real_name_to_codename_str))
     (game_dir / PHASE_STATUS_FILE).write_text(DAYTIME)
     (game_dir / PUBLIC_MANAGER_CHAT_FILE).touch()
     (game_dir / PUBLIC_DAYTIME_CHAT_FILE).touch()
-    (game_dir / PUBLIC_NIGHTTIME_CHAT_FILE).touch()
     (game_dir / WHO_WINS_FILE).touch()
     (game_dir / GAME_START_TIME_FILE).touch()
     (game_dir / NOTES_FILE).touch()
