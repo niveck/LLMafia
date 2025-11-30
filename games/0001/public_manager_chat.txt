@@ -1,2 +1,2 @@
-[01:01:01] Game-Manager: Now it's Discussion Time for 2 minutes. Everyone can communicate. Try to identify who the AI is!
-[01:04:47] Game-Manager: Lennon was eliminated. They were: Human
+[04:48:14] Game-Manager: Now it's Discussion Time for 2.0 minutes. Everyone can communicate. Try to identify who the AI is!
+[04:50:21] Game-Manager: Kai was eliminated. They were: Human

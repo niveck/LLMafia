@@ -1,26 +1,19 @@
 {
     "players": [
         {
-            "name": "Alex",
+            "name": "Kai",
             "is_mafia": false,
             "is_llm": false,
             "real_name": "Gabi",
             "llm_config": {}
         },
         {
-            "name": "Lennon",
-            "is_mafia": false,
-            "is_llm": false,
-            "real_name": "Uri",
-            "llm_config": {}
-        },
-        {
-            "name": "Ronny",
+            "name": "Kennedy",
             "is_mafia": true,
             "is_llm": true,
             "real_name": "LLM0",
             "llm_config": {
-                "model_name": "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+                "model_name": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
                 "use_together": true,
                 "use_pipeline": false,
                 "pipeline_task": "text-generation",
@@ -36,11 +29,19 @@
                 "use_turn_token": "<send>",
                 "async_type": "schedule_then_generate"
             }
+        },
+        {
+            "name": "Frankie",
+            "is_mafia": false,
+            "is_llm": false,
+            "real_name": "Uri",
+            "llm_config": {}
         }
     ],
-    "daytime_minutes": 2,
+    "daytime_minutes": 2.0,
     "nighttime_minutes": 0,
+    "anonymous_voting": true,
     "notes": "",
-    "preparation_command": "prepare_config.py -p 3 -l 1 -n configurations/name_files/rehearsal.txt -o 3players",
-    "config_original_path_when_game_created": ".\\configurations\\3players.json"
+    "preparation_command": "prepare_config.py -p 3 -l 1 -n configurations/name_files/rehearsal.txt -dt 2 -a -o game_3players_anonymous",
+    "config_original_path_when_game_created": ".\\configurations\\game_3players_anonymous.json"
 }
