@@ -80,6 +80,8 @@ def notify_players_about_voting_time(phase_name, public_chat_file):
 
 def get_voted_out_name(optional_votes_players, public_chat_file, voting_players, anonymous_voting=False):
     votes = {player.name: 0 for player in optional_votes_players}
+    vote_details = []  # Collect who voted for whom
+    
     while voting_players:
         voted_players = []
         for player in voting_players:
@@ -88,11 +90,7 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players,
                 continue
             voted_players.append(player)
             if voted_for in votes:
-                if not anonymous_voting:
-                    # Non-anonymous: show who voted for whom
-                    with open(public_chat_file, "a", encoding="utf-8") as f:
-                        voting_message = VOTING_MESSAGE_FORMAT.format(player.name, voted_for)
-                        f.write(format_message(GAME_MANAGER_NAME, voting_message))
+                vote_details.append((player.name, voted_for))
                 votes[voted_for] += 1
         for player in voted_players:
             voting_players.remove(player)
@@ -100,14 +98,22 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players,
     # if there were invalid votes or if there was a tie, decision will be made "randomly"
     voted_out_name = max(votes, key=votes.get)
     
-    # For anonymous voting, show vote counts after all votes are in
-    if anonymous_voting:
-        with open(public_chat_file, "a", encoding="utf-8") as f:
-            f.write(format_message(GAME_MANAGER_NAME, "Voting results:"))
-            for player_name in sorted(votes.keys()):
-                vote_count = votes[player_name]
-                plural = "vote" if vote_count == 1 else "votes"
-                f.write(format_message(GAME_MANAGER_NAME, f"{player_name}: {vote_count} {plural}"))
+    # Write ONE unified voting results message
+    with open(public_chat_file, "a", encoding="utf-8") as f:
+        f.write(format_message(GAME_MANAGER_NAME, "Voting results:"))
+        
+        if not anonymous_voting:
+            # Show who voted for whom
+            for voter, voted_for in vote_details:
+                f.write(format_message(GAME_MANAGER_NAME, f"  {voter} → {voted_for}"))
+            f.write(format_message(GAME_MANAGER_NAME, ""))  # blank line separator
+        
+        # Show summary (sorted by vote count, descending)
+        f.write(format_message(GAME_MANAGER_NAME, "Summary:"))
+        sorted_votes = sorted(votes.items(), key=lambda x: x[1], reverse=True)
+        for player_name, vote_count in sorted_votes:
+            plural = "vote" if vote_count == 1 else "votes"
+            f.write(format_message(GAME_MANAGER_NAME, f"  {player_name}: {vote_count} {plural}"))
     
     return voted_out_name
 
