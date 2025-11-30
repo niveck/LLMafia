@@ -2,11 +2,10 @@ from game_constants import get_current_timestamp, RULES_OF_THE_GAME, strip_speci
 
 MODEL_NAMES = [
     "meta-llama/Llama-3.3-70B-Instruct-Turbo",
-    "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
     "meta-llama/Llama-3.1-8B-Instruct",
     "microsoft/Phi-3-mini-4k-instruct"
 ]
-DEFAULT_MODEL_NAME = MODEL_NAMES[0]  # Use Llama-3.3-70B-Instruct-Turbo (free and powerful)
+DEFAULT_MODEL_NAME = MODEL_NAMES[0]
 
 # prompts patterns:
 INSTRUCTION_INPUT_RESPONSE_PATTERN = "instruction-input-response prompt pattern"
