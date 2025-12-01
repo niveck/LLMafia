@@ -6,6 +6,7 @@ Run this instead of player_merged_chat_and_input.py for a chat-like UI
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import secrets
+import re
 from pathlib import Path
 
 from game_constants import (
@@ -83,8 +84,11 @@ class WebPlayer:
                     for raw in new_lines:
                         line = raw.strip()
                         if line:
-                            # All messages from manager file are type="manager"
-                            messages.append({"text": line, "type": "manager"})
+                            # Strip "Game-Manager:" prefix to avoid duplication
+                            # (frontend CSS adds "🛠️ Game Manager:" header)
+                            # Pattern: "[HH:MM:SS] Game-Manager: message"
+                            cleaned = re.sub(r'Game-Manager:\s*', '', line)
+                            messages.append({"text": cleaned, "type": "manager"})
 
             # Daytime chat (merged messages from all personal files - player chat only)
             daytime_file = self.game_dir / PUBLIC_DAYTIME_CHAT_FILE
