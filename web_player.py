@@ -254,12 +254,21 @@ def get_messages():
     game_started = all_players_joined(player.game_dir)
 
     remaining_players = []
-    if can_vote:
-        remaining_file = player.game_dir / REMAINING_PLAYERS_FILE
-        if remaining_file.exists():
+    remaining_file = player.game_dir / REMAINING_PLAYERS_FILE
+    if remaining_file.exists():
+        # After the first vote: use remaining_players.txt
+        remaining_players = [
+            line.strip()
+            for line in remaining_file.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    else:
+        # Before ANY elimination: all players are remaining
+        full_list_file = player.game_dir / PLAYER_NAMES_FILE
+        if full_list_file.exists():
             remaining_players = [
                 line.strip()
-                for line in remaining_file.read_text(encoding="utf-8").splitlines()
+                for line in full_list_file.read_text(encoding="utf-8").splitlines()
                 if line.strip()
             ]
 

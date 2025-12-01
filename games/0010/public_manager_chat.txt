@@ -1,0 +1,8 @@
+[03:28:01] Game-Manager: Now it's Discussion Time for 2.0 minutes. Everyone can communicate. Try to identify who the AI is!
+[03:30:01] Game-Manager: Discussion phase has ended, now it's time to vote! Who do you think is the AI? Waiting for all players to vote...
+[03:30:25] Game-Manager: Voting results:\nSummary:\n  Addison: 3 votes\n  Reese: 1 vote\n  Lee: 0 votes\n  Bailey: 0 votes
+[03:30:25] Game-Manager: Addison was eliminated. They were: Human
+[03:30:25] Game-Manager: Now it's Discussion Time for 2.0 minutes. Everyone can communicate. Try to identify who the AI is!
+[03:32:25] Game-Manager: Discussion phase has ended, now it's time to vote! Who do you think is the AI? Waiting for all players to vote...
+[03:32:40] Game-Manager: Voting results:\nSummary:\n  Bailey: 2 votes\n  Lee: 1 vote\n  Reese: 0 votes
+[03:32:40] Game-Manager: Bailey was eliminated. They were: Human

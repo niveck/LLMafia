@@ -1,0 +1,2 @@
+AI_ELIMINATED_ROUND - survived
+TOTAL_ROUNDS - 2

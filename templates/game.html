@@ -781,7 +781,11 @@
         
         function updateInputState(data) {
             // 🛑 If the player has been eliminated → fully disable input
-            if (data.remaining_players && !data.remaining_players.includes(playerName)) {
+            if (
+                Array.isArray(data.remaining_players) &&
+                data.remaining_players.length > 0 && 
+                !data.remaining_players.includes(playerName)
+            ) {
                 const input = document.getElementById('messageInput');
                 const button = document.querySelector('#inputArea button');
                 const inputArea = document.getElementById('inputArea');
@@ -1034,6 +1038,7 @@
             .then(data => {
                 console.log('[Survey] Response:', data);
                 if (data.success) {
+                    surveyShown = true;
                     // Show thank you message
                     document.getElementById('surveyForm').style.display = 'none';
                     document.getElementById('surveyThankYou').style.display = 'block';
