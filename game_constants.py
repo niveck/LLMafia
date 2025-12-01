@@ -32,6 +32,7 @@ PERSONAL_CHAT_FILE_FORMAT = "{}_chat.txt"
 PERSONAL_VOTE_FILE_FORMAT = "{}_vote.txt"
 PERSONAL_SURVEY_FILE_FORMAT = "{}_survey.txt"
 LLM_LOG_FILE_FORMAT = "{}_log.txt"
+AI_ELIMINATION_INFO_FILE = "ai_elimination_info.txt"
 
 # constant strings for info files
 DAYTIME = "Daytime"

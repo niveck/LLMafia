@@ -131,6 +131,7 @@ def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_
     voted_out_player.eliminate()
     players.remove(voted_out_player)
     announce_voted_out_player(voted_out_player)
+    return voted_out_name
 
 def game_manager_announcement(message):
     """
@@ -156,15 +157,17 @@ def run_phase(players, voting_players, optional_votes_players, public_chat_file,
     else:
         game_manager_announcement(CUTTING_TO_VOTE_MESSAGE)
     print("Now voting starts...")
-    voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players, anonymous_voting)
+    eliminated = voting_sub_phase(phase_name, voting_players, optional_votes_players, public_chat_file, players, anonymous_voting)
+    return eliminated
 
 def run_daytime(players, daytime_minutes, anonymous_voting=False):
     """Run discussion phase where all players can communicate and vote"""
     (game_dir / PHASE_STATUS_FILE).write_text(DAYTIME)
     print(colored(DAYTIME_START_MESSAGE_FORMAT.format(daytime_minutes), DAYTIME_COLOR))
     game_manager_announcement(DAYTIME_START_MESSAGE_FORMAT.format(daytime_minutes))
-    run_phase(players, players, players, game_dir / PUBLIC_DAYTIME_CHAT_FILE,
+    eliminated = run_phase(players, players, players, game_dir / PUBLIC_DAYTIME_CHAT_FILE,
               minutes_to_seconds(daytime_minutes), DAYTIME, anonymous_voting)
+    return eliminated
 
 def wait_for_players(players):
     havent_joined_yet = [player for player in players]
@@ -185,6 +188,18 @@ def get_all_player_out_of_voting_time():
     current_phase = (game_dir / PHASE_STATUS_FILE).read_text(encoding="utf-8", errors="ignore")
     (game_dir / PHASE_STATUS_FILE).write_text(current_phase.replace(VOTING_TIME, ""))
 
+def write_ai_elimination_info(ai_eliminated_round, total_rounds):
+    """Write AI elimination tracking data for research analysis"""
+    info_file = game_dir / AI_ELIMINATION_INFO_FILE
+    
+    if ai_eliminated_round is None:
+        elimination_status = "survived"
+    else:
+        elimination_status = str(ai_eliminated_round)
+    
+    content = f"AI_ELIMINATED_ROUND - {elimination_status}\nTOTAL_ROUNDS - {total_rounds}\n"
+    info_file.write_text(content, encoding="utf-8")
+
 def end_game():
     get_all_player_out_of_voting_time()
     print("Game has finished.")
@@ -196,9 +211,27 @@ def main():
     players = get_players(config)
     anonymous_voting = config.get(ANONYMOUS_VOTING_KEY, False)
     wait_for_players(players)
+    
+    # Track rounds and AI elimination for research
+    round_counter = 0
+    ai_eliminated_round = None
+    
+    # Get AI player name for tracking
+    ai_players = [p for p in players if p.is_ai]
+    ai_player_name = ai_players[0].name if ai_players else None
+    
     # Social Turing Test: Only day phases (discussion + voting), no night phase
     while not is_game_over(players):
-        run_daytime(players, config[DAYTIME_MINUTES_KEY], anonymous_voting)
+        round_counter += 1
+        eliminated_name = run_daytime(players, config[DAYTIME_MINUTES_KEY], anonymous_voting)
+        
+        # Check if AI was eliminated this round
+        if eliminated_name == ai_player_name and ai_eliminated_round is None:
+            ai_eliminated_round = round_counter
+    
+    # Write elimination tracking data
+    write_ai_elimination_info(ai_eliminated_round, round_counter)
+    
     end_game()
 
 if __name__ == '__main__':

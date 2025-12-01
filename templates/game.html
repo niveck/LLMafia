@@ -342,6 +342,138 @@
             margin: 10px 0;
         }
         
+        /* Survey Modal Styles */
+        #surveyModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #surveyModal.show {
+            display: flex;
+        }
+        
+        .survey-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .survey-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .survey-question {
+            margin-bottom: 25px;
+        }
+        
+        .survey-question label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .survey-question select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+        }
+        
+        .survey-question select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .confidence-options {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        .confidence-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .confidence-option:hover {
+            border-color: #667eea;
+            background: #f0f0ff;
+        }
+        
+        .confidence-option.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+        
+        #surveySubmitBtn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+        
+        #surveySubmitBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+        
+        #surveySubmitBtn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .survey-thank-you {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .survey-thank-you h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -403,6 +535,40 @@
         </div>
     </div>
     
+    <!-- Survey Modal -->
+    <div id="surveyModal">
+        <div class="survey-content">
+            <div id="surveyForm">
+                <h2>📊 End of Game Survey</h2>
+                
+                <div class="survey-question">
+                    <label for="aiGuess">Who do you think was the AI?</label>
+                    <select id="aiGuess">
+                        <option value="">Select a player...</option>
+                    </select>
+                </div>
+                
+                <div class="survey-question">
+                    <label>How confident are you? (1 = Not confident, 5 = Very confident)</label>
+                    <div class="confidence-options">
+                        <div class="confidence-option" onclick="selectConfidence(1)">1</div>
+                        <div class="confidence-option" onclick="selectConfidence(2)">2</div>
+                        <div class="confidence-option" onclick="selectConfidence(3)">3</div>
+                        <div class="confidence-option" onclick="selectConfidence(4)">4</div>
+                        <div class="confidence-option" onclick="selectConfidence(5)">5</div>
+                    </div>
+                </div>
+                
+                <button id="surveySubmitBtn" onclick="submitSurvey()">Submit Survey</button>
+            </div>
+            
+            <div id="surveyThankYou" class="survey-thank-you" style="display: none;">
+                <h3>✅ Thank You!</h3>
+                <p>Your response has been recorded.</p>
+            </div>
+        </div>
+    </div>
+    
     <script>
         let sessionId = null;
         let playerName = null;
@@ -411,6 +577,8 @@
         let messageCount = 0;
         let hasVoted = false;
         let gameOverMessageShown = false;
+        let surveyShown = false;
+        let selectedConfidence = null;
         
         // Generate consistent color for each player based on their name
         function getPlayerColor(name) {
@@ -536,6 +704,9 @@
                     return;
                 }
                 
+                // Store remaining players for elimination check
+                window.lastRemainingPlayers = data.remaining_players;
+                
                 // Add new messages
                 if (data.messages && data.messages.length > 0) {
                     console.log(`Received ${data.messages.length} new messages`);
@@ -570,6 +741,12 @@
                         });
                         gameOverMessageShown = true;
                     }
+                    
+                    // Show survey for human players only
+                    if (!isAI && !surveyShown) {
+                        surveyShown = true;
+                        setTimeout(() => showSurvey(), 2000); // Wait 2 seconds after game over
+                    }
                 }
             })
             .catch(err => {
@@ -603,6 +780,19 @@
         }
         
         function updateInputState(data) {
+            // 🛑 If the player has been eliminated → fully disable input
+            if (data.remaining_players && !data.remaining_players.includes(playerName)) {
+                const input = document.getElementById('messageInput');
+                const button = document.querySelector('#inputArea button');
+                const inputArea = document.getElementById('inputArea');
+                
+                inputArea.classList.remove('hidden');
+                input.disabled = true;
+                button.disabled = true;
+                input.placeholder = 'You have been eliminated and cannot send messages.';
+                return; // Stop function from re-enabling
+            }
+            
             const input = document.getElementById('messageInput');
             const button = document.querySelector('#inputArea button');
             const inputArea = document.getElementById('inputArea');
@@ -653,6 +843,12 @@
         }
         
         function sendMessage() {
+            // 🛑 Block sending if player is eliminated
+            if (window.lastRemainingPlayers && !window.lastRemainingPlayers.includes(playerName)) {
+                console.log('[Send] Blocked – player is eliminated');
+                return;
+            }
+            
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
             
@@ -761,6 +957,100 @@
                     btn.style.pointerEvents = '';
                     btn.style.opacity = '';
                 });
+            });
+        }
+        
+        function showSurvey() {
+            console.log('[Survey] Showing survey modal');
+            
+            // Load player options for survey
+            fetch('/get_survey_options', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({session_id: sessionId})
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('[Survey] Error loading options:', data.error);
+                    return;
+                }
+                
+                const select = document.getElementById('aiGuess');
+                select.innerHTML = '<option value="">Select a player...</option>';
+                data.players.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    select.appendChild(option);
+                });
+                
+                // Show modal
+                document.getElementById('surveyModal').classList.add('show');
+            })
+            .catch(err => {
+                console.error('[Survey] Error:', err);
+            });
+        }
+        
+        function selectConfidence(level) {
+            selectedConfidence = level;
+            document.querySelectorAll('.confidence-option').forEach((el, idx) => {
+                if (idx + 1 === level) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+        
+        function submitSurvey() {
+            const guessedAI = document.getElementById('aiGuess').value;
+            
+            if (!guessedAI) {
+                alert('Please select who you think was the AI');
+                return;
+            }
+            
+            if (!selectedConfidence) {
+                alert('Please select your confidence level');
+                return;
+            }
+            
+            console.log('[Survey] Submitting:', {guessedAI, selectedConfidence});
+            
+            document.getElementById('surveySubmitBtn').disabled = true;
+            
+            fetch('/survey_submit', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    guessed_ai: guessedAI,
+                    confidence: selectedConfidence
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                console.log('[Survey] Response:', data);
+                if (data.success) {
+                    // Show thank you message
+                    document.getElementById('surveyForm').style.display = 'none';
+                    document.getElementById('surveyThankYou').style.display = 'block';
+                    
+                    // Close modal after 3 seconds
+                    setTimeout(() => {
+                        document.getElementById('surveyModal').classList.remove('show');
+                    }, 3000);
+                } else {
+                    alert('Error submitting survey: ' + (data.error || 'Unknown error'));
+                    document.getElementById('surveySubmitBtn').disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error('[Survey] Error:', err);
+                alert('Error submitting survey');
+                document.getElementById('surveySubmitBtn').disabled = false;
             });
         }
     </script>

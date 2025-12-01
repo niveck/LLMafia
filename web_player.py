@@ -8,17 +8,23 @@ from flask_cors import CORS
 import secrets
 import re
 from pathlib import Path
+from datetime import datetime
 
 from game_constants import (
     DIRS_PREFIX,
     PERSONAL_CHAT_FILE_FORMAT,
     PERSONAL_VOTE_FILE_FORMAT,
     PERSONAL_STATUS_FILE_FORMAT,
+    PERSONAL_SURVEY_FILE_FORMAT,
     PUBLIC_MANAGER_CHAT_FILE,
     PUBLIC_DAYTIME_CHAT_FILE,
     REAL_NAMES_FILE,
     REAL_NAME_CODENAME_DELIMITER,
     REMAINING_PLAYERS_FILE,
+    PLAYER_NAMES_FILE,
+    AI_PLAYER_FILE,
+    LLM_LOG_FILE_FORMAT,
+    METRIC_NAME_AND_SCORE_DELIMITER,
     JOINED,
     RULES_OF_THE_GAME,
     format_message,
@@ -38,7 +44,6 @@ CORS(app)
 # Global state for each player session (in-memory, per-server-process)
 player_states = {}
 
-
 class WebPlayer:
     """
     Represents one player connected through the web UI.
@@ -57,6 +62,9 @@ class WebPlayer:
         # how many lines we have already read from each public chat file
         self.num_read_manager = 0
         self.num_read_daytime = 0
+        
+        # Survey submission tracking
+        self.did_submit_survey = False
 
     def get_new_messages(self):
         """
@@ -119,12 +127,31 @@ class WebPlayer:
         with self.personal_vote_file.open("a", encoding="utf-8") as f:
             f.write(voted_name + "\n")
 
+def get_llm_player_name(game_dir):
+    """
+    Get the AI player's name using Niv's two-step detection logic:
+    1. Check ai_player.txt file (newer games)
+    2. Fall back to finding player with _log.txt file (original method)
+    """
+    # Step 1: Check if ai_player.txt exists (newer games)
+    ai_player_file = game_dir / AI_PLAYER_FILE
+    if ai_player_file.exists():
+        return ai_player_file.read_text(encoding="utf-8").strip()
+    
+    # Step 2: Find player with _log.txt file (original method)
+    player_names_file = game_dir / PLAYER_NAMES_FILE
+    if player_names_file.exists():
+        for player_name in player_names_file.read_text(encoding="utf-8").splitlines():
+            log_file = game_dir / LLM_LOG_FILE_FORMAT.format(player_name)
+            if log_file.exists():
+                return player_name
+    
+    return None
 
 @app.route("/")
 def index():
     # main HTML template
     return render_template("game.html")
-
 
 @app.route("/get_players", methods=["POST"])
 def get_players():
@@ -152,7 +179,6 @@ def get_players():
             real_names.append(real_name)
 
     return jsonify({"players": real_names})
-
 
 @app.route("/join", methods=["POST"])
 def join_game():
@@ -204,7 +230,6 @@ def join_game():
             "rules": RULES_OF_THE_GAME,
         }
     )
-
 
 @app.route("/messages", methods=["POST"])
 def get_messages():
@@ -264,7 +289,6 @@ def get_messages():
         }
     )
 
-
 @app.route("/send", methods=["POST"])
 def send_message():
     """
@@ -287,7 +311,6 @@ def send_message():
 
     return jsonify({"success": True})
 
-
 @app.route("/vote", methods=["POST"])
 def vote():
     """
@@ -306,19 +329,94 @@ def vote():
 
     player = player_states[session_id]
     
-    # BUG FIX: Check if vote file already has content for this round
-    if player.personal_vote_file.exists():
-        existing_votes = player.personal_vote_file.read_text(encoding="utf-8").strip()
-        if existing_votes:
-            # Count lines to see if already voted this round
-            vote_lines = [line for line in existing_votes.splitlines() if line.strip()]
-            if vote_lines:
-                return jsonify({"success": False, "error": "Already voted this round"}), 400
-    
     player.send_vote(voted_name)
 
     return jsonify({"success": True})
 
+@app.route("/get_survey_options", methods=["POST"])
+def get_survey_options():
+    """
+    Return all player names for the survey (including eliminated players).
+    Excludes the current player from the list.
+    """
+    data = request.json or {}
+    session_id = data.get("session_id")
+
+    if session_id not in player_states:
+        return jsonify({"error": "Invalid session"}), 401
+
+    player = player_states[session_id]
+    
+    # Get all players from PLAYER_NAMES_FILE
+    player_names_file = player.game_dir / PLAYER_NAMES_FILE
+    if not player_names_file.exists():
+        return jsonify({"error": "Player names file not found"}), 404
+    
+    all_players = [
+        name.strip()
+        for name in player_names_file.read_text(encoding="utf-8").splitlines()
+        if name.strip()
+    ]
+    
+    # Exclude the current player
+    survey_options = [p for p in all_players if p != player.name]
+    
+    return jsonify({"players": survey_options})
+
+@app.route("/survey_submit", methods=["POST"])
+def survey_submit():
+    """
+    Submit end-of-game survey results.
+    Writes to survey file in Niv's exact format:
+    TIME - <timestamp>
+    LLM_IDENTIFICATION - <0 or 1>
+    LLM_CONFIDENCE - <1-5>
+    """
+    data = request.json or {}
+    session_id = data.get("session_id")
+    guessed_ai = (data.get("guessed_ai") or "").strip()
+    confidence = data.get("confidence")
+
+    if session_id not in player_states:
+        return jsonify({"error": "Invalid session"}), 401
+
+    player = player_states[session_id]
+    
+    # Check if already submitted
+    if player.did_submit_survey:
+        return jsonify({"error": "Survey already submitted"}), 400
+
+    # Validate inputs
+    if not guessed_ai:
+        return jsonify({"error": "No AI guess provided"}), 400
+    
+    try:
+        confidence = int(confidence)
+        if not (1 <= confidence <= 5):
+            return jsonify({"error": "Confidence must be between 1 and 5"}), 400
+    except (TypeError, ValueError):
+        return jsonify({"error": "Invalid confidence value"}), 400
+
+    # Get the actual AI player name
+    ai_player_name = get_llm_player_name(player.game_dir)
+    
+    # Calculate correctness (1 if correct, 0 if wrong)
+    llm_identification = 1 if (ai_player_name and guessed_ai == ai_player_name) else 0
+    
+    # Write to survey file in Niv's format
+    survey_file = player.game_dir / PERSONAL_SURVEY_FILE_FORMAT.format(player.name)
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    survey_content = f"TIME{METRIC_NAME_AND_SCORE_DELIMITER}{timestamp}\n"
+    survey_content += f"LLM_IDENTIFICATION{METRIC_NAME_AND_SCORE_DELIMITER}{llm_identification}\n"
+    survey_content += f"LLM_CONFIDENCE{METRIC_NAME_AND_SCORE_DELIMITER}{confidence}\n"
+    
+    survey_file.write_text(survey_content, encoding="utf-8")
+    
+    # Mark as submitted
+    player.did_submit_survey = True
+    
+    return jsonify({"success": True})
 
 if __name__ == "__main__":
     print("Starting Social Turing Test Web Interface...")
