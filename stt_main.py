@@ -133,8 +133,14 @@ def voting_sub_phase(phase_name, voting_players, optional_votes_players, public_
     announce_voted_out_player(voted_out_player)
 
 def game_manager_announcement(message):
+    """
+    Write a Game Manager announcement to the manager chat file.
+    Multi-line messages are escaped (\n → \\n) so they appear as ONE bubble in the UI.
+    """
     with open(game_dir / PUBLIC_MANAGER_CHAT_FILE, "a", encoding="utf-8") as f:
-        f.write(format_message(GAME_MANAGER_NAME, message))
+        # Escape newlines so the entire message stays in one file line
+        final_message = format_message(GAME_MANAGER_NAME, message.replace("\n", "\\n"))
+        f.write(final_message)
 
 def announce_voted_out_player(voted_out_player):
     role = get_role_display_string(voted_out_player.is_ai)

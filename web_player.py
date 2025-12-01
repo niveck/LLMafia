@@ -234,6 +234,14 @@ def get_messages():
                 if line.strip()
             ]
 
+    # Get game over message if game has ended
+    game_over_message = None
+    if game_over:
+        from game_constants import WHO_WINS_FILE
+        winner_file = player.game_dir / WHO_WINS_FILE
+        if winner_file.exists():
+            game_over_message = winner_file.read_text(encoding="utf-8").strip()
+
     # chat is only allowed when:
     #   - all players joined
     #   - not voting time
@@ -244,6 +252,7 @@ def get_messages():
         {
             "messages": messages,
             "game_over": game_over,
+            "game_over_message": game_over_message,
             "can_vote": can_vote,
             "can_chat": can_chat,
             "game_started": game_started,

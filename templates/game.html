@@ -140,6 +140,21 @@
             flex-shrink: 0;
         }
         
+        #rulesBox {
+            background: #fffbe7;
+            border-left: 5px solid #ffc107;
+            padding: 15px 20px;
+            margin: 0;
+            font-size: 14px;
+            color: #6c5b00;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            display: none;
+            flex-shrink: 0;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
         #messagesContainer {
             flex: 1;
             overflow-y: auto;
@@ -179,16 +194,6 @@
             display: block;
             margin-bottom: 4px;
             font-size: 13px;
-        }
-        
-        .message.manager.rules {
-            max-width: 95%;
-            background: linear-gradient(135deg, #fff9e6 0%, #fffbf0 100%);
-            border: 2px solid #ffc107;
-            padding: 20px;
-            margin: 10px 0;
-            white-space: pre-wrap;
-            line-height: 1.6;
         }
         
         .message.chat {
@@ -343,6 +348,7 @@
             </div>
             
             <div id="phaseIndicator">⏳ Waiting for players...</div>
+            <div id="rulesBox"></div>
             
             <div id="messagesContainer"></div>
             
@@ -364,7 +370,8 @@
         let isAI = false;
         let pollInterval = null;
         let messageCount = 0;
-        let hasVoted = false;  // Track if player has already voted this round
+        let hasVoted = false;
+        let gameOverMessageShown = false;
         
         function loadPlayers() {
             const gameId = document.getElementById('gameIdInput').value.trim();
@@ -433,8 +440,11 @@
                             `<span class="role-badge">🤖 ${data.role}</span>`;
                     }
                     
-                    // Add rules as special message
-                    addMessage({text: data.rules, type: 'manager', isRules: true});
+                    // Display rules in fixed box instead of chat bubble
+                    const rulesBox = document.getElementById('rulesBox');
+                    rulesBox.style.display = 'block';
+                    rulesBox.textContent = data.rules;
+                    
                     startPolling();
                 }
             })
@@ -481,7 +491,7 @@
                     showVotePanel(data.remaining_players);
                 } else {
                     hideVotePanel();
-                    hasVoted = false;  // Reset vote flag when voting ends
+                    hasVoted = false;
                 }
                 
                 // Game over
@@ -489,7 +499,15 @@
                     clearInterval(pollInterval);
                     document.getElementById('messageInput').disabled = true;
                     document.querySelector('#inputArea button').disabled = true;
-                    document.getElementById('phaseIndicator').textContent = '🏁 Game Over';
+                    
+                    // Show game over message once
+                    if (data.game_over_message && !gameOverMessageShown) {
+                        addMessage({
+                            text: "🏁 Game Over\\n" + data.game_over_message,
+                            type: "manager"
+                        });
+                        gameOverMessageShown = true;
+                    }
                 }
             })
             .catch(err => {
@@ -550,11 +568,10 @@
             const div = document.createElement('div');
             
             div.className = `message ${msg.type}`;
-            if (msg.isRules || msg.text.length > 200) {
-                div.classList.add('rules');
-            }
             
-            div.textContent = msg.text;
+            // Render escaped newlines as <br>
+            div.innerHTML = msg.text.replace(/\\n/g, "<br>");
+            
             container.appendChild(div);
             
             // Force scroll to bottom
@@ -634,7 +651,6 @@
         }
         
         function vote(votedName) {
-            // BUG FIX #1: Disable all vote buttons immediately
             if (hasVoted) {
                 console.log('[Vote] Already voted this round');
                 return;
@@ -642,7 +658,7 @@
             
             console.log('[Vote] Voting for:', votedName);
             
-            // Disable all vote buttons immediately to prevent double-click
+            // Disable all vote buttons immediately
             document.querySelectorAll('.vote-button').forEach(btn => {
                 btn.classList.add('disabled');
                 btn.style.pointerEvents = 'none';
@@ -663,13 +679,11 @@
                     hideVotePanel();
                     addMessage({text: `✅ You voted to eliminate ${votedName}`, type: 'manager'});
                 } else if (data.error) {
-                    // Server rejected the vote (already voted)
                     addMessage({text: `⚠️ ${data.error}`, type: 'manager'});
                 }
             })
             .catch(err => {
                 console.error('[Vote] Error:', err);
-                // Re-enable buttons on error
                 hasVoted = false;
                 document.querySelectorAll('.vote-button').forEach(btn => {
                     btn.classList.remove('disabled');
