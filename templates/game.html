@@ -342,6 +342,37 @@
             margin: 10px 0;
         }
         
+        /* Survey Button Styles */
+        #surveyButtonArea {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            flex-shrink: 0;
+        }
+        
+        #surveyButtonArea button {
+            padding: 15px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        #surveyButtonArea button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        #surveyButtonArea.completed {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
         /* Survey Modal Styles */
         #surveyModal {
             display: none;
@@ -408,6 +439,22 @@
         }
         
         .survey-question select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .survey-question textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .survey-question textarea:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -528,6 +575,10 @@
                 <div id="voteButtons"></div>
             </div>
             
+            <div id="surveyButtonArea">
+                <button onclick="openSurveyModal()">📊 Complete Survey</button>
+            </div>
+            
             <div id="inputArea">
                 <input type="text" id="messageInput" placeholder="Waiting for game to start..." disabled onkeypress="handleKeyPress(event)" />
                 <button onclick="sendMessage()" disabled>Send</button>
@@ -551,12 +602,55 @@
                 <div class="survey-question">
                     <label>How confident are you? (1 = Not confident, 5 = Very confident)</label>
                     <div class="confidence-options">
-                        <div class="confidence-option" onclick="selectConfidence(1)">1</div>
-                        <div class="confidence-option" onclick="selectConfidence(2)">2</div>
-                        <div class="confidence-option" onclick="selectConfidence(3)">3</div>
-                        <div class="confidence-option" onclick="selectConfidence(4)">4</div>
-                        <div class="confidence-option" onclick="selectConfidence(5)">5</div>
+                        <div class="confidence-option" onclick="selectRating('confidence', 1)">1</div>
+                        <div class="confidence-option" onclick="selectRating('confidence', 2)">2</div>
+                        <div class="confidence-option" onclick="selectRating('confidence', 3)">3</div>
+                        <div class="confidence-option" onclick="selectRating('confidence', 4)">4</div>
+                        <div class="confidence-option" onclick="selectRating('confidence', 5)">5</div>
                     </div>
+                </div>
+                
+                <div class="survey-question">
+                    <label>How human-like was the AI's behavior? (1 = Not human-like, 5 = Very human-like)</label>
+                    <div class="confidence-options" id="humanLikenessOptions">
+                        <div class="confidence-option" onclick="selectRating('human_likeness', 1)">1</div>
+                        <div class="confidence-option" onclick="selectRating('human_likeness', 2)">2</div>
+                        <div class="confidence-option" onclick="selectRating('human_likeness', 3)">3</div>
+                        <div class="confidence-option" onclick="selectRating('human_likeness', 4)">4</div>
+                        <div class="confidence-option" onclick="selectRating('human_likeness', 5)">5</div>
+                    </div>
+                </div>
+                
+                <div class="survey-question">
+                    <label>How natural was the AI's timing and message pacing? (1 = Not natural, 5 = Very natural)</label>
+                    <div class="confidence-options" id="timingOptions">
+                        <div class="confidence-option" onclick="selectRating('timing', 1)">1</div>
+                        <div class="confidence-option" onclick="selectRating('timing', 2)">2</div>
+                        <div class="confidence-option" onclick="selectRating('timing', 3)">3</div>
+                        <div class="confidence-option" onclick="selectRating('timing', 4)">4</div>
+                        <div class="confidence-option" onclick="selectRating('timing', 5)">5</div>
+                    </div>
+                </div>
+                
+                <div class="survey-question">
+                    <label>How relevant and coherent were the AI's responses? (1 = Not relevant, 5 = Very relevant)</label>
+                    <div class="confidence-options" id="relevanceOptions">
+                        <div class="confidence-option" onclick="selectRating('relevance', 1)">1</div>
+                        <div class="confidence-option" onclick="selectRating('relevance', 2)">2</div>
+                        <div class="confidence-option" onclick="selectRating('relevance', 3)">3</div>
+                        <div class="confidence-option" onclick="selectRating('relevance', 4)">4</div>
+                        <div class="confidence-option" onclick="selectRating('relevance', 5)">5</div>
+                    </div>
+                </div>
+                
+                <div class="survey-question">
+                    <label for="suspicionReason">What made you suspect (or not suspect) the AI?</label>
+                    <textarea id="suspicionReason" rows="3" dir="auto" placeholder="Optional: Share your reasoning..."></textarea>
+                </div>
+                
+                <div class="survey-question">
+                    <label for="surveyNotes">Any other observations or notes?</label>
+                    <textarea id="surveyNotes" rows="3" dir="auto" placeholder="Optional: Any additional comments..."></textarea>
                 </div>
                 
                 <button id="surveySubmitBtn" onclick="submitSurvey()">Submit Survey</button>
@@ -578,7 +672,14 @@
         let hasVoted = false;
         let gameOverMessageShown = false;
         let surveyShown = false;
-        let selectedConfidence = null;
+        
+        // Survey ratings - track all 4 rating fields
+        let surveyRatings = {
+            confidence: null,
+            human_likeness: null,
+            timing: null,
+            relevance: null
+        };
         
         // Generate consistent color for each player based on their name
         function getPlayerColor(name) {
@@ -742,10 +843,9 @@
                         gameOverMessageShown = true;
                     }
                     
-                    // Show survey for human players only
-                    if (!isAI && !surveyShown) {
-                        surveyShown = true;
-                        setTimeout(() => showSurvey(), 2000); // Wait 2 seconds after game over
+                    // Issue 2: Show survey button for ALL human players (not auto-popup)
+                    if (!isAI) {
+                        showSurveyButton();
                     }
                 }
             })
@@ -898,6 +998,12 @@
         }
         
         function showVotePanel(players) {
+            // Issue 1: Block vote panel for eliminated players
+            if (window.lastRemainingPlayers && !window.lastRemainingPlayers.includes(playerName)) {
+                console.log('[Vote Panel] Blocked - player is eliminated');
+                return;
+            }
+            
             const panel = document.getElementById('votePanel');
             const buttonsDiv = document.getElementById('voteButtons');
             
@@ -922,6 +1028,12 @@
         }
         
         function vote(votedName) {
+            // Issue 1: Block voting for eliminated players
+            if (window.lastRemainingPlayers && !window.lastRemainingPlayers.includes(playerName)) {
+                console.log('[Vote] Blocked - player is eliminated');
+                return;
+            }
+            
             if (hasVoted) {
                 console.log('[Vote] Already voted this round');
                 return;
@@ -964,8 +1076,23 @@
             });
         }
         
-        function showSurvey() {
-            console.log('[Survey] Showing survey modal');
+        function showSurveyButton() {
+            if (surveyShown) return; // Don't show if already submitted
+            
+            console.log('[Survey] Showing survey button');
+            const surveyArea = document.getElementById('surveyButtonArea');
+            surveyArea.style.display = 'block';
+        }
+        
+        function openSurveyModal() {
+            console.log('[Survey] Opening survey modal');
+            
+            // Check localStorage to prevent re-submission
+            const surveyKey = `survey_submitted_${sessionId}`;
+            if (localStorage.getItem(surveyKey) === 'true') {
+                alert('You have already submitted the survey!');
+                return;
+            }
             
             // Load player options for survey
             fetch('/get_survey_options', {
@@ -997,31 +1124,91 @@
             });
         }
         
-        function selectConfidence(level) {
-            selectedConfidence = level;
-            document.querySelectorAll('.confidence-option').forEach((el, idx) => {
-                if (idx + 1 === level) {
-                    el.classList.add('selected');
-                } else {
-                    el.classList.remove('selected');
-                }
-            });
+        function selectRating(field, level) {
+            surveyRatings[field] = level;
+            
+            // Update visual selection for the specific field
+            const parentDiv = document.querySelector(`#${field === 'confidence' ? '' : field.replace('_', '')}Options`).parentElement.querySelector('.confidence-options');
+            const options = parentDiv ? parentDiv.querySelectorAll('.confidence-option') : 
+                           document.querySelectorAll('.confidence-option');
+            
+            // For confidence (first set), directly select from parent
+            if (field === 'confidence') {
+                const confOptions = document.querySelectorAll('.confidence-options')[0].querySelectorAll('.confidence-option');
+                confOptions.forEach((el, idx) => {
+                    if (idx + 1 === level) {
+                        el.classList.add('selected');
+                    } else {
+                        el.classList.remove('selected');
+                    }
+                });
+            } else if (field === 'human_likeness') {
+                const hlOptions = document.getElementById('humanLikenessOptions').querySelectorAll('.confidence-option');
+                hlOptions.forEach((el, idx) => {
+                    if (idx + 1 === level) {
+                        el.classList.add('selected');
+                    } else {
+                        el.classList.remove('selected');
+                    }
+                });
+            } else if (field === 'timing') {
+                const tOptions = document.getElementById('timingOptions').querySelectorAll('.confidence-option');
+                tOptions.forEach((el, idx) => {
+                    if (idx + 1 === level) {
+                        el.classList.add('selected');
+                    } else {
+                        el.classList.remove('selected');
+                    }
+                });
+            } else if (field === 'relevance') {
+                const rOptions = document.getElementById('relevanceOptions').querySelectorAll('.confidence-option');
+                rOptions.forEach((el, idx) => {
+                    if (idx + 1 === level) {
+                        el.classList.add('selected');
+                    } else {
+                        el.classList.remove('selected');
+                    }
+                });
+            }
+            
+            console.log('[Survey] Rating selected:', field, '=', level);
         }
         
         function submitSurvey() {
             const guessedAI = document.getElementById('aiGuess').value;
+            const suspicionReason = document.getElementById('suspicionReason').value.trim();
+            const notes = document.getElementById('surveyNotes').value.trim();
             
+            // Validation - AI guess required
             if (!guessedAI) {
                 alert('Please select who you think was the AI');
                 return;
             }
             
-            if (!selectedConfidence) {
-                alert('Please select your confidence level');
+            // Validation - all 4 rating fields required
+            if (!surveyRatings.confidence) {
+                alert('Please rate your confidence level (1-5)');
+                return;
+            }
+            if (!surveyRatings.human_likeness) {
+                alert('Please rate how human-like the AI\'s behavior was (1-5)');
+                return;
+            }
+            if (!surveyRatings.timing) {
+                alert('Please rate the AI\'s timing and message pacing (1-5)');
+                return;
+            }
+            if (!surveyRatings.relevance) {
+                alert('Please rate the AI\'s relevance and coherence (1-5)');
                 return;
             }
             
-            console.log('[Survey] Submitting:', {guessedAI, selectedConfidence});
+            console.log('[Survey] Submitting:', {
+                guessedAI, 
+                ratings: surveyRatings,
+                suspicionReason,
+                notes
+            });
             
             document.getElementById('surveySubmitBtn').disabled = true;
             
@@ -1031,7 +1218,12 @@
                 body: JSON.stringify({
                     session_id: sessionId,
                     guessed_ai: guessedAI,
-                    confidence: selectedConfidence
+                    confidence: surveyRatings.confidence,
+                    human_likeness: surveyRatings.human_likeness,
+                    timing: surveyRatings.timing,
+                    relevance: surveyRatings.relevance,
+                    suspicion_reason: suspicionReason,
+                    notes: notes
                 })
             })
             .then(r => r.json())
@@ -1039,9 +1231,20 @@
                 console.log('[Survey] Response:', data);
                 if (data.success) {
                     surveyShown = true;
+                    
+                    // Store in localStorage to prevent re-submission
+                    const surveyKey = `survey_submitted_${sessionId}`;
+                    localStorage.setItem(surveyKey, 'true');
+                    
                     // Show thank you message
                     document.getElementById('surveyForm').style.display = 'none';
                     document.getElementById('surveyThankYou').style.display = 'block';
+                    
+                    // Update survey button
+                    const surveyArea = document.getElementById('surveyButtonArea');
+                    surveyArea.classList.add('completed');
+                    surveyArea.querySelector('button').textContent = '✅ Survey Completed';
+                    surveyArea.querySelector('button').disabled = true;
                     
                     // Close modal after 3 seconds
                     setTimeout(() => {

@@ -376,15 +376,26 @@ def get_survey_options():
 def survey_submit():
     """
     Submit end-of-game survey results.
-    Writes to survey file in Niv's exact format:
+    Writes to survey file in Niv's exact format matching game_constants.py:
     TIME - <timestamp>
-    LLM_IDENTIFICATION - <0 or 1>
+    Was the LLM identified - <0 or 1>
     LLM_CONFIDENCE - <1-5>
+    similarity to human behavior - <1-5>
+    timing of messaging - <1-5>
+    relevance of messages - <1-5>
+    Comments:
+    <suspicion_reason>
+    <notes>
     """
     data = request.json or {}
     session_id = data.get("session_id")
     guessed_ai = (data.get("guessed_ai") or "").strip()
     confidence = data.get("confidence")
+    human_likeness = data.get("human_likeness")
+    timing = data.get("timing")
+    relevance = data.get("relevance")
+    suspicion_reason = (data.get("suspicion_reason") or "").strip()
+    notes = (data.get("notes") or "").strip()
 
     if session_id not in player_states:
         return jsonify({"error": "Invalid session"}), 401
@@ -399,12 +410,19 @@ def survey_submit():
     if not guessed_ai:
         return jsonify({"error": "No AI guess provided"}), 400
     
+    # Validate all rating fields (1-5)
     try:
         confidence = int(confidence)
-        if not (1 <= confidence <= 5):
-            return jsonify({"error": "Confidence must be between 1 and 5"}), 400
+        human_likeness = int(human_likeness)
+        timing = int(timing)
+        relevance = int(relevance)
+        
+        for val, name in [(confidence, "confidence"), (human_likeness, "human_likeness"), 
+                          (timing, "timing"), (relevance, "relevance")]:
+            if not (1 <= val <= 5):
+                return jsonify({"error": f"{name} must be between 1 and 5"}), 400
     except (TypeError, ValueError):
-        return jsonify({"error": "Invalid confidence value"}), 400
+        return jsonify({"error": "Invalid rating value"}), 400
 
     # Get the actual AI player name
     ai_player_name = get_llm_player_name(player.game_dir)
@@ -412,13 +430,24 @@ def survey_submit():
     # Calculate correctness (1 if correct, 0 if wrong)
     llm_identification = 1 if (ai_player_name and guessed_ai == ai_player_name) else 0
     
-    # Write to survey file in Niv's format
+    # Write to survey file in Niv's exact format
     survey_file = player.game_dir / PERSONAL_SURVEY_FILE_FORMAT.format(player.name)
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%H:%M:%S")
     
+    # Match exact format from game_constants.py
     survey_content = f"TIME{METRIC_NAME_AND_SCORE_DELIMITER}{timestamp}\n"
-    survey_content += f"LLM_IDENTIFICATION{METRIC_NAME_AND_SCORE_DELIMITER}{llm_identification}\n"
+    survey_content += f"Was the LLM identified{METRIC_NAME_AND_SCORE_DELIMITER}{llm_identification}\n"
     survey_content += f"LLM_CONFIDENCE{METRIC_NAME_AND_SCORE_DELIMITER}{confidence}\n"
+    survey_content += f"similarity to human behavior{METRIC_NAME_AND_SCORE_DELIMITER}{human_likeness}\n"
+    survey_content += f"timing of messaging{METRIC_NAME_AND_SCORE_DELIMITER}{timing}\n"
+    survey_content += f"relevance of messages{METRIC_NAME_AND_SCORE_DELIMITER}{relevance}\n"
+    survey_content += "Comments:\n"
+    
+    # Combine both text fields into comments section
+    if suspicion_reason:
+        survey_content += f"{suspicion_reason}\n"
+    if notes:
+        survey_content += f"{notes}\n"
     
     survey_file.write_text(survey_content, encoding="utf-8")
     
