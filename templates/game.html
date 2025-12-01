@@ -1127,49 +1127,33 @@
         function selectRating(field, level) {
             surveyRatings[field] = level;
             
-            // Update visual selection for the specific field
-            const parentDiv = document.querySelector(`#${field === 'confidence' ? '' : field.replace('_', '')}Options`).parentElement.querySelector('.confidence-options');
-            const options = parentDiv ? parentDiv.querySelectorAll('.confidence-option') : 
-                           document.querySelectorAll('.confidence-option');
-            
-            // For confidence (first set), directly select from parent
+            // Find the parent container for this rating group
+            let parentContainer;
             if (field === 'confidence') {
-                const confOptions = document.querySelectorAll('.confidence-options')[0].querySelectorAll('.confidence-option');
-                confOptions.forEach((el, idx) => {
-                    if (idx + 1 === level) {
-                        el.classList.add('selected');
-                    } else {
-                        el.classList.remove('selected');
-                    }
-                });
+                // First rating group (confidence) - select first .confidence-options div
+                parentContainer = document.querySelectorAll('.confidence-options')[0];
             } else if (field === 'human_likeness') {
-                const hlOptions = document.getElementById('humanLikenessOptions').querySelectorAll('.confidence-option');
-                hlOptions.forEach((el, idx) => {
-                    if (idx + 1 === level) {
-                        el.classList.add('selected');
-                    } else {
-                        el.classList.remove('selected');
-                    }
-                });
+                parentContainer = document.getElementById('humanLikenessOptions');
             } else if (field === 'timing') {
-                const tOptions = document.getElementById('timingOptions').querySelectorAll('.confidence-option');
-                tOptions.forEach((el, idx) => {
-                    if (idx + 1 === level) {
-                        el.classList.add('selected');
-                    } else {
-                        el.classList.remove('selected');
-                    }
-                });
+                parentContainer = document.getElementById('timingOptions');
             } else if (field === 'relevance') {
-                const rOptions = document.getElementById('relevanceOptions').querySelectorAll('.confidence-option');
-                rOptions.forEach((el, idx) => {
-                    if (idx + 1 === level) {
-                        el.classList.add('selected');
-                    } else {
-                        el.classList.remove('selected');
-                    }
-                });
+                parentContainer = document.getElementById('relevanceOptions');
             }
+            
+            if (!parentContainer) {
+                console.error('[Survey] Could not find container for field:', field);
+                return;
+            }
+            
+            // Get all buttons in this specific group and update selection
+            const buttons = parentContainer.querySelectorAll('.confidence-option');
+            buttons.forEach((button, idx) => {
+                if (idx + 1 === level) {
+                    button.classList.add('selected');
+                } else {
+                    button.classList.remove('selected');
+                }
+            });
             
             console.log('[Survey] Rating selected:', field, '=', level);
         }
