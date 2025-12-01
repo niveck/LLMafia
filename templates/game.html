@@ -236,6 +236,12 @@
             transform: translateY(-2px);
         }
         
+        .vote-button.disabled {
+            opacity: 0.6;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+        
         #inputArea {
             padding: 15px 20px;
             background: white;
@@ -358,6 +364,7 @@
         let isAI = false;
         let pollInterval = null;
         let messageCount = 0;
+        let hasVoted = false;  // Track if player has already voted this round
         
         function loadPlayers() {
             const gameId = document.getElementById('gameIdInput').value.trim();
@@ -474,6 +481,7 @@
                     showVotePanel(data.remaining_players);
                 } else {
                     hideVotePanel();
+                    hasVoted = false;  // Reset vote flag when voting ends
                 }
                 
                 // Game over
@@ -626,7 +634,22 @@
         }
         
         function vote(votedName) {
+            // BUG FIX #1: Disable all vote buttons immediately
+            if (hasVoted) {
+                console.log('[Vote] Already voted this round');
+                return;
+            }
+            
             console.log('[Vote] Voting for:', votedName);
+            
+            // Disable all vote buttons immediately to prevent double-click
+            document.querySelectorAll('.vote-button').forEach(btn => {
+                btn.classList.add('disabled');
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.6';
+            });
+            
+            hasVoted = true;
             
             fetch('/vote', {
                 method: 'POST',
@@ -639,10 +662,20 @@
                 if (data.success) {
                     hideVotePanel();
                     addMessage({text: `✅ You voted to eliminate ${votedName}`, type: 'manager'});
+                } else if (data.error) {
+                    // Server rejected the vote (already voted)
+                    addMessage({text: `⚠️ ${data.error}`, type: 'manager'});
                 }
             })
             .catch(err => {
                 console.error('[Vote] Error:', err);
+                // Re-enable buttons on error
+                hasVoted = false;
+                document.querySelectorAll('.vote-button').forEach(btn => {
+                    btn.classList.remove('disabled');
+                    btn.style.pointerEvents = '';
+                    btn.style.opacity = '';
+                });
             });
         }
     </script>

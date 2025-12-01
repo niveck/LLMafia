@@ -61,7 +61,12 @@ class WebPlayer:
         """
         Read only *new* lines from manager & daytime chat files
         and return them as a list of {text, type} dicts.
-        type: "manager" | "chat"
+        
+        BUG FIX: Classify messages ONLY by their file of origin:
+        - All lines from PUBLIC_MANAGER_CHAT_FILE → type="manager"
+        - All lines from PUBLIC_DAYTIME_CHAT_FILE → type="chat"
+        
+        This ensures 100% consistency - no text pattern matching needed!
         """
         messages = []
 
@@ -78,9 +83,10 @@ class WebPlayer:
                     for raw in new_lines:
                         line = raw.strip()
                         if line:
+                            # All messages from manager file are type="manager"
                             messages.append({"text": line, "type": "manager"})
 
-            # Daytime chat (merged messages from all personal files)
+            # Daytime chat (merged messages from all personal files - player chat only)
             daytime_file = self.game_dir / PUBLIC_DAYTIME_CHAT_FILE
             if daytime_file.exists():
                 with daytime_file.open("r", encoding="utf-8") as f:
@@ -91,11 +97,8 @@ class WebPlayer:
                     for raw in new_lines:
                         line = raw.strip()
                         if line:
-                            # Detect Game Manager messages by text pattern
-                            if "] Game Manager:" in line:
-                                messages.append({"text": line, "type": "manager"})
-                            else:
-                                messages.append({"text": line, "type": "chat"})
+                            # All messages from daytime file are type="chat"
+                            messages.append({"text": line, "type": "chat"})
         except Exception as e:
             print(f"[WebPlayer] Error reading messages for {self.name}: {e}")
 
@@ -276,6 +279,7 @@ def send_message():
 def vote():
     """
     Append a vote for the current player.
+    BUG FIX: Check if player has already voted this round.
     """
     data = request.json or {}
     session_id = data.get("session_id")
@@ -288,6 +292,16 @@ def vote():
         return jsonify({"error": "No vote"}), 400
 
     player = player_states[session_id]
+    
+    # BUG FIX: Check if vote file already has content for this round
+    if player.personal_vote_file.exists():
+        existing_votes = player.personal_vote_file.read_text(encoding="utf-8").strip()
+        if existing_votes:
+            # Count lines to see if already voted this round
+            vote_lines = [line for line in existing_votes.splitlines() if line.strip()]
+            if vote_lines:
+                return jsonify({"success": False, "error": "Already voted this round"}), 400
+    
     player.send_vote(voted_name)
 
     return jsonify({"success": True})

@@ -72,9 +72,9 @@ def run_chat_round_between_players(players, chat_room):
             f.writelines(lines)  # lines already include "\n"
 
 def notify_players_about_voting_time(phase_name, public_chat_file):
+    # BUG FIX #2: Write to manager chat file, not daytime chat
     phase_end_message = DAYTIME_VOTING_TIME_MESSAGE
-    with open(public_chat_file, "a", encoding="utf-8") as f:  # only to the current phase's active players chat room
-        f.write(format_message(GAME_MANAGER_NAME, phase_end_message))
+    game_manager_announcement(phase_end_message)
     voting_phase_name = DAYTIME_VOTING_TIME
     (game_dir / PHASE_STATUS_FILE).write_text(voting_phase_name)
 
@@ -98,22 +98,24 @@ def get_voted_out_name(optional_votes_players, public_chat_file, voting_players,
     # if there were invalid votes or if there was a tie, decision will be made "randomly"
     voted_out_name = max(votes, key=votes.get)
     
-    # Write ONE unified voting results message
-    with open(public_chat_file, "a", encoding="utf-8") as f:
-        f.write(format_message(GAME_MANAGER_NAME, "Voting results:"))
-        
-        if not anonymous_voting:
-            # Show who voted for whom
-            for voter, voted_for in vote_details:
-                f.write(format_message(GAME_MANAGER_NAME, f"  {voter} → {voted_for}"))
-            f.write(format_message(GAME_MANAGER_NAME, ""))  # blank line separator
-        
-        # Show summary (sorted by vote count, descending)
-        f.write(format_message(GAME_MANAGER_NAME, "Summary:"))
-        sorted_votes = sorted(votes.items(), key=lambda x: x[1], reverse=True)
-        for player_name, vote_count in sorted_votes:
-            plural = "vote" if vote_count == 1 else "votes"
-            f.write(format_message(GAME_MANAGER_NAME, f"  {player_name}: {vote_count} {plural}"))
+    # BUG FIX: Construct voting results as ONE combined message (appears as one bubble in UI)
+    result = "Voting results:\n"
+    
+    if not anonymous_voting:
+        # Show who voted for whom
+        result += "\n".join(f"  {voter} → {voted_for}" for voter, voted_for in vote_details)
+        result += "\n\n"
+    
+    # Show summary (sorted by vote count, descending)
+    result += "Summary:\n"
+    sorted_votes = sorted(votes.items(), key=lambda x: x[1], reverse=True)
+    result += "\n".join(
+        f"  {player_name}: {vote_count} {'vote' if vote_count == 1 else 'votes'}"
+        for player_name, vote_count in sorted_votes
+    )
+    
+    # Write as ONE message to manager chat file
+    game_manager_announcement(result)
     
     return voted_out_name
 
